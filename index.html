@@ -1,0 +1,2093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RUSIYA MODX</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&family=Press+Start+2P&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Rajdhani', sans-serif;
+  background: #000;
+  color: #fff;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ===== BOOT SCREEN ===== */
+#bootScreen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #0a0a0a 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  transition: opacity 0.5s;
+}
+
+.boot-logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3rem;
+  font-weight: 900;
+  background: linear-gradient(45deg, #ff0040, #ff6600, #ff0040, #ff00ff);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 2s ease infinite;
+  text-shadow: 0 0 30px rgba(255,0,64,0.5);
+  margin-bottom: 30px;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.boot-loader {
+  width: 250px;
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.boot-loader-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ff0040, #ff6600, #ff00ff);
+  border-radius: 2px;
+  animation: bootLoad 7s ease-in-out forwards;
+}
+
+@keyframes bootLoad {
+  0% { width: 0%; }
+  20% { width: 15%; }
+  40% { width: 35%; }
+  60% { width: 60%; }
+  80% { width: 85%; }
+  100% { width: 100%; }
+}
+
+.boot-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  color: #ff0040;
+  letter-spacing: 3px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.3; }
+}
+
+.boot-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.boot-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #ff0040;
+  border-radius: 50%;
+  animation: floatUp 3s linear infinite;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(100vh) scale(0); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
+
+/* ===== LOGIN SCREEN ===== */
+#loginScreen {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #0a0a0a, #1a0a2e, #0a0a0a);
+  z-index: 9000;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.login-container {
+  background: rgba(20, 10, 40, 0.9);
+  border: 1px solid rgba(255, 0, 64, 0.3);
+  border-radius: 20px;
+  padding: 40px 35px;
+  width: 90%;
+  max-width: 400px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 40px rgba(255, 0, 64, 0.2), inset 0 0 40px rgba(255, 0, 64, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-container::before {
+  content: '';
+  position: absolute;
+  top: -2px; left: -2px;
+  right: -2px; bottom: -2px;
+  background: linear-gradient(45deg, #ff0040, transparent, #ff00ff, transparent);
+  border-radius: 21px;
+  z-index: -1;
+  animation: borderRotate 3s linear infinite;
+}
+
+@keyframes borderRotate {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+.login-logo {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-logo h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  background: linear-gradient(45deg, #ff0040, #ff6600);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.login-logo .skull {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  display: block;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.login-subtitle {
+  text-align: center;
+  color: #888;
+  font-size: 0.85rem;
+  margin-bottom: 25px;
+  letter-spacing: 2px;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-group i {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ff0040;
+  font-size: 1.1rem;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 14px 15px 14px 45px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 0, 64, 0.2);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 1rem;
+  font-family: 'Rajdhani', sans-serif;
+  transition: all 0.3s;
+  outline: none;
+}
+
+.input-group input:focus {
+  border-color: #ff0040;
+  box-shadow: 0 0 15px rgba(255, 0, 64, 0.3);
+  background: rgba(255, 0, 64, 0.05);
+}
+
+.input-group input::placeholder {
+  color: #555;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(45deg, #ff0040, #cc0033);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 1.1rem;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 10px;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 25px rgba(255, 0, 64, 0.5);
+}
+
+.login-btn:active {
+  transform: scale(0.98);
+}
+
+.login-msg {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.9rem;
+  min-height: 25px;
+  font-weight: 600;
+}
+
+.login-msg.success { color: #00ff88; }
+.login-msg.error { color: #ff0040; }
+
+.expiry-info {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.75rem;
+  color: #666;
+}
+
+/* ===== MAIN APP ===== */
+#mainApp {
+  display: none;
+  min-height: 100vh;
+  background: #0a0a0f;
+}
+
+/* Header */
+.app-header {
+  background: linear-gradient(135deg, rgba(20, 10, 40, 0.95), rgba(10, 5, 20, 0.95));
+  border-bottom: 1px solid rgba(255, 0, 64, 0.3);
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 900;
+  background: linear-gradient(45deg, #ff0040, #ff6600);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-version {
+  font-size: 0.65rem;
+  background: rgba(255, 0, 64, 0.2);
+  padding: 2px 8px;
+  border-radius: 10px;
+  color: #ff0040;
+  border: 1px solid rgba(255, 0, 64, 0.3);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.header-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  color: #00ff88;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #00ff88;
+  border-radius: 50%;
+  animation: statusPulse 2s infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(0, 255, 136, 0); }
+}
+
+.settings-btn {
+  background: none;
+  border: 1px solid rgba(255, 0, 64, 0.3);
+  color: #ff0040;
+  width: 35px;
+  height: 35px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-btn:hover {
+  background: rgba(255, 0, 64, 0.1);
+  border-color: #ff0040;
+}
+
+/* Device Info Card */
+.device-card {
+  margin: 15px;
+  background: linear-gradient(135deg, rgba(20, 10, 40, 0.8), rgba(30, 15, 50, 0.8));
+  border: 1px solid rgba(255, 0, 64, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.device-card::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(255, 0, 64, 0.1), transparent);
+  border-radius: 50%;
+}
+
+.device-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.device-icon {
+  width: 45px;
+  height: 45px;
+  background: linear-gradient(135deg, #ff0040, #cc0033);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+
+.device-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.device-model {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.device-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.spec-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.spec-label {
+  font-size: 0.65rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.spec-value {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ff0040;
+}
+
+/* Network Card */
+.network-card {
+  margin: 0 15px 15px;
+  background: linear-gradient(135deg, rgba(0, 40, 20, 0.5), rgba(10, 30, 40, 0.5));
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  border-radius: 16px;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.network-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.network-icon {
+  font-size: 1.5rem;
+}
+
+.network-name {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #00ff88;
+}
+
+.network-type {
+  font-size: 0.7rem;
+  color: #888;
+}
+
+.network-speed {
+  text-align: right;
+}
+
+.speed-value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: #00ff88;
+}
+
+.speed-unit {
+  font-size: 0.65rem;
+  color: #888;
+}
+
+/* PIN Section */
+.pin-section {
+  margin: 0 15px 15px;
+}
+
+.section-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ff0040;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 0, 64, 0.3), transparent);
+}
+
+/* Toggle Cards */
+.toggle-card {
+  background: linear-gradient(135deg, rgba(20, 10, 40, 0.6), rgba(15, 8, 30, 0.8));
+  border: 1px solid rgba(255, 0, 64, 0.15);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s;
+}
+
+.toggle-card:hover {
+  border-color: rgba(255, 0, 64, 0.4);
+  transform: translateX(3px);
+}
+
+.toggle-card.active {
+  border-color: rgba(0, 255, 136, 0.4);
+  background: linear-gradient(135deg, rgba(0, 40, 20, 0.3), rgba(10, 20, 15, 0.5));
+}
+
+.toggle-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.toggle-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  background: rgba(255, 0, 64, 0.15);
+  border: 1px solid rgba(255, 0, 64, 0.2);
+}
+
+.toggle-card.active .toggle-icon {
+  background: rgba(0, 255, 136, 0.15);
+  border-color: rgba(0, 255, 136, 0.3);
+}
+
+.toggle-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #ddd;
+}
+
+.toggle-desc {
+  font-size: 0.7rem;
+  color: #666;
+  margin-top: 2px;
+}
+
+.toggle-card.active .toggle-name {
+  color: #00ff88;
+}
+
+.toggle-value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  color: #ff6600;
+  margin-right: 10px;
+  background: rgba(255, 102, 0, 0.1);
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 102, 0, 0.2);
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  position: relative;
+  width: 50px;
+  height: 26px;
+  cursor: pointer;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 26px;
+  transition: all 0.4s;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #666;
+  top: 2px;
+  left: 3px;
+  transition: all 0.4s;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: rgba(0, 255, 136, 0.3);
+  border-color: rgba(0, 255, 136, 0.5);
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(23px);
+  background: #00ff88;
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
+
+/* Launch Button */
+.launch-section {
+  margin: 20px 15px;
+}
+
+.launch-btn {
+  width: 100%;
+  padding: 18px;
+  background: linear-gradient(45deg, #ff0040, #ff3366, #ff0040);
+  background-size: 200% 200%;
+  animation: launchGradient 3s ease infinite;
+  border: none;
+  border-radius: 16px;
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 5px 30px rgba(255, 0, 64, 0.4);
+}
+
+@keyframes launchGradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.launch-btn::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+  transform: rotate(45deg);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) rotate(45deg); }
+}
+
+.launch-btn:active {
+  transform: scale(0.97);
+}
+
+/* Optimize Button */
+.optimize-card {
+  margin: 0 15px 15px;
+  background: linear-gradient(135deg, rgba(40, 20, 0, 0.5), rgba(30, 10, 0, 0.5));
+  border: 1px solid rgba(255, 102, 0, 0.3);
+  border-radius: 14px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.optimize-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.optimize-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  background: rgba(255, 102, 0, 0.15);
+  border: 1px solid rgba(255, 102, 0, 0.2);
+  animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.optimize-name {
+  font-weight: 700;
+  color: #ff6600;
+}
+
+.optimize-desc {
+  font-size: 0.7rem;
+  color: #888;
+}
+
+/* Settings Panel */
+#settingsPanel {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 5000;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.settings-content {
+  background: linear-gradient(135deg, #1a0a2e, #0a0a1a);
+  width: 100%;
+  max-width: 500px;
+  max-height: 85vh;
+  border-radius: 20px 20px 0 0;
+  padding: 25px 20px;
+  overflow-y: auto;
+  border-top: 2px solid rgba(255, 0, 64, 0.5);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.settings-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ff0040;
+}
+
+.settings-close {
+  background: rgba(255, 0, 64, 0.1);
+  border: 1px solid rgba(255, 0, 64, 0.3);
+  color: #ff0040;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.settings-close:hover {
+  background: rgba(255, 0, 64, 0.2);
+}
+
+.settings-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.settings-item:hover {
+  border-color: rgba(255, 0, 64, 0.3);
+  background: rgba(255, 0, 64, 0.05);
+  transform: translateX(5px);
+}
+
+.settings-item-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.si-purple { background: rgba(128, 0, 255, 0.15); border: 1px solid rgba(128, 0, 255, 0.3); }
+.si-green { background: rgba(0, 255, 136, 0.1); border: 1px solid rgba(0, 255, 136, 0.2); }
+.si-blue { background: rgba(0, 136, 255, 0.1); border: 1px solid rgba(0, 136, 255, 0.2); }
+.si-orange { background: rgba(255, 136, 0, 0.1); border: 1px solid rgba(255, 136, 0, 0.2); }
+.si-red { background: rgba(255, 0, 64, 0.1); border: 1px solid rgba(255, 0, 64, 0.2); }
+
+.settings-item-text h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.settings-item-text p {
+  font-size: 0.7rem;
+  color: #666;
+}
+
+.settings-item-arrow {
+  margin-left: auto;
+  color: #555;
+  font-size: 0.8rem;
+}
+
+.creator-info {
+  text-align: center;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.creator-info p {
+  font-size: 0.7rem;
+  color: #444;
+  margin-bottom: 3px;
+}
+
+.creator-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  color: #ff0040 !important;
+  font-weight: 700;
+}
+
+/* History Panel */
+#historyPanel {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 5000;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.history-content {
+  background: linear-gradient(135deg, #1a0a2e, #0a0a1a);
+  width: 100%;
+  max-width: 500px;
+  max-height: 85vh;
+  border-radius: 20px 20px 0 0;
+  padding: 25px 20px;
+  overflow-y: auto;
+  border-top: 2px solid rgba(0, 136, 255, 0.5);
+  animation: slideUp 0.3s ease;
+}
+
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.history-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  color: #0088ff;
+}
+
+.history-close {
+  background: rgba(0, 136, 255, 0.1);
+  border: 1px solid rgba(0, 136, 255, 0.3);
+  color: #0088ff;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.history-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.history-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.history-dot.green { background: #00ff88; }
+.history-dot.red { background: #ff0040; }
+.history-dot.blue { background: #0088ff; }
+.history-dot.orange { background: #ff6600; }
+
+.history-text {
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+.history-time {
+  font-size: 0.65rem;
+  color: #555;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.no-history {
+  text-align: center;
+  color: #555;
+  padding: 40px;
+  font-size: 0.9rem;
+}
+
+/* Notification Popup */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  left: 20px;
+  background: rgba(20, 10, 40, 0.95);
+  border: 1px solid rgba(255, 0, 64, 0.5);
+  border-radius: 14px;
+  padding: 15px 20px;
+  z-index: 9999;
+  display: none;
+  animation: slideDown 0.3s ease;
+  backdrop-filter: blur(10px);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.notification.success {
+  border-color: rgba(0, 255, 136, 0.5);
+}
+
+.notification.error {
+  border-color: rgba(255, 0, 64, 0.5);
+}
+
+.notif-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.notif-icon {
+  font-size: 1.5rem;
+}
+
+.notif-text h4 {
+  font-size: 0.9rem;
+  margin-bottom: 2px;
+}
+
+.notif-text p {
+  font-size: 0.7rem;
+  color: #888;
+}
+
+/* Matrix rain background */
+.matrix-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 0, 64, 0.3);
+  border-radius: 2px;
+}
+
+/* Footer */
+.app-footer {
+  text-align: center;
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 10px;
+}
+
+.footer-text {
+  font-size: 0.65rem;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.footer-creator {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  color: #ff0040;
+  font-weight: 700;
+}
+
+/* Activation animation */
+.activation-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 8000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.activation-check {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid #00ff88;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: #00ff88;
+  animation: scaleIn 0.5s ease;
+  box-shadow: 0 0 40px rgba(0, 255, 136, 0.3);
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+.activation-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.5rem;
+  color: #00ff88;
+  margin-top: 20px;
+  animation: fadeInUp 0.5s ease 0.3s both;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.optimize-progress {
+  display: none;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.optimize-bar-bg {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.optimize-bar-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #ff6600, #00ff88);
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+.optimize-status {
+  font-size: 0.7rem;
+  color: #ff6600;
+  margin-top: 5px;
+  text-align: center;
+}
+
+/* User welcome */
+.user-welcome {
+  margin: 15px;
+  background: linear-gradient(135deg, rgba(0, 40, 60, 0.5), rgba(0, 20, 40, 0.5));
+  border: 1px solid rgba(0, 136, 255, 0.2);
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff0040, #ff6600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.1rem;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.user-info h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.user-info p {
+  font-size: 0.65rem;
+  color: #0088ff;
+}
+
+.user-expiry {
+  margin-left: auto;
+  text-align: right;
+}
+
+.user-expiry span {
+  font-size: 0.6rem;
+  color: #666;
+  display: block;
+}
+
+.user-expiry strong {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  color: #00ff88;
+}
+
+/* Responsive */
+@media (max-width: 380px) {
+  .boot-logo { font-size: 2.2rem; }
+  .login-logo h1 { font-size: 1.5rem; }
+  .device-specs { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- BOOT SCREEN -->
+<div id="bootScreen">
+  <div class="boot-particles" id="bootParticles"></div>
+  <div class="boot-logo">RUSIYA MODX</div>
+  <div class="boot-loader">
+    <div class="boot-loader-bar"></div>
+  </div>
+  <div class="boot-text">INITIALIZING SYSTEM...</div>
+</div>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <div class="login-container">
+    <div class="login-logo">
+      <span class="skull">💀</span>
+      <h1>RUSIYA MODX</h1>
+    </div>
+    <div class="login-subtitle">⚡ PREMIUM PANEL ACCESS ⚡</div>
+    <div class="input-group">
+      <span style="position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#ff0040;">👤</span>
+      <input type="text" id="username" placeholder="Username" autocomplete="off">
+    </div>
+    <div class="input-group">
+      <span style="position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#ff0040;">🔒</span>
+      <input type="password" id="password" placeholder="Password" autocomplete="off">
+    </div>
+    <button class="login-btn" onclick="handleLogin()">🔓 LOGIN</button>
+    <div class="login-msg" id="loginMsg"></div>
+    <div class="expiry-info">License Expiry: 2027/05/19</div>
+  </div>
+</div>
+
+<!-- ACTIVATION OVERLAY -->
+<div class="activation-overlay" id="activationOverlay">
+  <div class="activation-check">✓</div>
+  <div class="activation-text">ACTIVATED</div>
+</div>
+
+<!-- NOTIFICATION -->
+<div class="notification" id="notification">
+  <div class="notif-content">
+    <span class="notif-icon" id="notifIcon">✅</span>
+    <div class="notif-text">
+      <h4 id="notifTitle">Success</h4>
+      <p id="notifDesc">Panel activated successfully</p>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="mainApp">
+  <canvas class="matrix-bg" id="matrixCanvas"></canvas>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-left">
+      <span class="header-logo">RUSIYA MODX</span>
+      <span class="header-version">V3.0</span>
+    </div>
+    <div class="header-right">
+      <div class="header-status">
+        <span class="status-dot"></span>
+        <span>ACTIVE</span>
+      </div>
+      <button class="settings-btn" onclick="openSettings()">⚙️</button>
+    </div>
+  </header>
+
+  <!-- User Welcome -->
+  <div class="user-welcome">
+    <div class="user-avatar">R</div>
+    <div class="user-info">
+      <h3>Welcome, RAVI</h3>
+      <p>Premium Member</p>
+    </div>
+    <div class="user-expiry">
+      <span>Expires</span>
+      <strong>2027/05/19</strong>
+    </div>
+  </div>
+
+  <!-- Device Info -->
+  <div class="device-card">
+    <div class="device-header">
+      <div class="device-icon">📱</div>
+      <div>
+        <div class="device-name" id="deviceName">Detecting...</div>
+        <div class="device-model" id="deviceModel">Auto-scanning device</div>
+      </div>
+    </div>
+    <div class="device-specs">
+      <div class="spec-item">
+        <div class="spec-label">RAM</div>
+        <div class="spec-value" id="deviceRAM">--</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Storage</div>
+        <div class="spec-value" id="deviceStorage">--</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Android</div>
+        <div class="spec-value" id="deviceAndroid">--</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Cores</div>
+        <div class="spec-value" id="deviceCores">--</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Network Info -->
+  <div class="network-card">
+    <div class="network-left">
+      <span class="network-icon">📶</span>
+      <div>
+        <div class="network-name" id="networkName">Detecting...</div>
+        <div class="network-type" id="networkType">Scanning network</div>
+      </div>
+    </div>
+    <div class="network-speed">
+      <div class="speed-value" id="networkSpeed">--</div>
+      <div class="speed-unit">Mbps</div>
+    </div>
+  </div>
+
+  <!-- PIN Features -->
+  <div class="pin-section">
+    <div class="section-title">🎯 GAME FEATURES</div>
+
+    <!-- ANTI BAN -->
+    <div class="toggle-card" id="card-antiban">
+      <div class="toggle-left">
+        <div class="toggle-icon">🛡️</div>
+        <div>
+          <div class="toggle-name">ANTI BAN</div>
+          <div class="toggle-desc">Advanced anti-ban protection</div>
+        </div>
+      </div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="toggle-antiban" onchange="toggleFeature('antiban', this)">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <!-- AIM LOCK -->
+    <div class="toggle-card" id="card-aimlock">
+      <div class="toggle-left">
+        <div class="toggle-icon">🎯</div>
+        <div>
+          <div class="toggle-name">AIM LOCK</div>
+          <div class="toggle-desc">Auto aim-lock system</div>
+        </div>
+      </div>
+      <span class="toggle-value">60</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="toggle-aimlock" onchange="toggleFeature('aimlock', this)">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <!-- AIM FIX -->
+    <div class="toggle-card" id="card-aimfix">
+      <div class="toggle-left">
+        <div class="toggle-icon">🔫</div>
+        <div>
+          <div class="toggle-name">AIM FIX</div>
+          <div class="toggle-desc">Crosshair aim fix module</div>
+        </div>
+      </div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="toggle-aimfix" onchange="toggleFeature('aimfix', this)">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <!-- REGEDIT -->
+    <div class="toggle-card" id="card-regedit">
+      <div class="toggle-left">
+        <div class="toggle-icon">📝</div>
+        <div>
+          <div class="toggle-name">REGEDIT</div>
+          <div class="toggle-desc">Registry editor config</div>
+        </div>
+      </div>
+      <span class="toggle-value">20</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="toggle-regedit" onchange="toggleFeature('regedit', this)">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Optimize -->
+  <div class="optimize-card" id="optimizeCard">
+    <div class="optimize-left">
+      <div class="optimize-icon">⚡</div>
+      <div>
+        <div class="optimize-name">PHONE OPTIMIZE</div>
+        <div class="optimize-desc">Boost device performance</div>
+      </div>
+    </div>
+    <label class="toggle-switch">
+      <input type="checkbox" id="toggle-optimize" onchange="toggleOptimize(this)">
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+  <div class="optimize-progress" id="optimizeProgress" style="margin: 0 15px 15px;">
+    <div class="optimize-bar-bg">
+      <div class="optimize-bar-fill" id="optimizeFill"></div>
+    </div>
+    <div class="optimize-status" id="optimizeStatus">Optimizing...</div>
+  </div>
+
+  <!-- Launch Button -->
+  <div class="launch-section">
+    <button class="launch-btn" onclick="launchGame()">
+      🎮 LAUNCH FREE FIRE
+    </button>
+  </div>
+
+  <!-- Footer -->
+  <div class="app-footer">
+    <div class="footer-text">This panel created by</div>
+    <div class="footer-creator">RUSIRU RUKSHAN</div>
+    <div class="footer-text" style="margin-top:5px;">© 2024 RUSIYA MODX - All Rights Reserved</div>
+  </div>
+</div>
+
+<!-- SETTINGS PANEL -->
+<div id="settingsPanel" onclick="closeSettingsOutside(event)">
+  <div class="settings-content" onclick="event.stopPropagation()">
+    <div class="settings-header">
+      <span class="settings-title">⚙️ SETTINGS</span>
+      <button class="settings-close" onclick="closeSettings()">✕</button>
+    </div>
+
+    <div class="settings-item" onclick="window.open('https://sites.google.com/view/panlelravi', '_blank')">
+      <div class="settings-item-icon si-purple">🎨</div>
+      <div class="settings-item-text">
+        <h3>Skin File</h3>
+        <p>Open skin file panel</p>
+      </div>
+      <span class="settings-item-arrow">→</span>
+    </div>
+
+    <div class="settings-item" onclick="window.open('https://wa.me/94779028682', '_blank')">
+      <div class="settings-item-icon si-green">💬</div>
+      <div class="settings-item-text">
+        <h3>Chat with WhatsApp</h3>
+        <p>Account panel bug report - 77 902 8682</p>
+      </div>
+      <span class="settings-item-arrow">→</span>
+    </div>
+
+    <div class="settings-item" onclick="openHistory()">
+      <div class="settings-item-icon si-blue">📋</div>
+      <div class="settings-item-text">
+        <h3>History</h3>
+        <p>View activity history</p>
+      </div>
+      <span class="settings-item-arrow">→</span>
+    </div>
+
+    <div class="settings-item" onclick="window.open('https://rusirurukshan68-jpg.github.io/RUSIYA-TOPUP-Store-/', '_blank')">
+      <div class="settings-item-icon si-orange">💎</div>
+      <div class="settings-item-text">
+        <h3>RUSIYA TOP UP Store</h3>
+        <p>Diamond & top up store</p>
+      </div>
+      <span class="settings-item-arrow">→</span>
+    </div>
+
+    <div class="settings-item" onclick="window.open('https://www.mediafire.com/file/knuqez56o8kkrxp/RUSIYA+MODX++BODY+HEADSHOT+.xapk/file', '_blank')">
+      <div class="settings-item-icon si-red">📥</div>
+      <div class="settings-item-text">
+        <h3>FREE MOD MENU Download</h3>
+        <p>RUSIYA MODX Body Headshot XAPK</p>
+      </div>
+      <span class="settings-item-arrow">→</span>
+    </div>
+
+    <div class="creator-info">
+      <p>This panel created by</p>
+      <p class="creator-name">✨ RUSIRU RUKSHAN ✨</p>
+      <p style="margin-top:8px;">Version 3.0 • Build 2024</p>
+    </div>
+  </div>
+</div>
+
+<!-- HISTORY PANEL -->
+<div id="historyPanel" onclick="closeHistoryOutside(event)">
+  <div class="history-content" onclick="event.stopPropagation()">
+    <div class="history-header">
+      <span class="history-title">📋 HISTORY</span>
+      <button class="history-close" onclick="closeHistory()">✕</button>
+    </div>
+    <div id="historyList">
+      <div class="no-history">No history yet</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== CONSTANTS =====
+const CORRECT_USER = "RAVI";
+const CORRECT_PASS = "2009";
+const EXPIRY_DATE = new Date("2027-05-19");
+
+// ===== BOOT SCREEN =====
+function createBootParticles() {
+  const container = document.getElementById('bootParticles');
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'boot-particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDelay = Math.random() * 3 + 's';
+    p.style.animationDuration = (2 + Math.random() * 3) + 's';
+    const colors = ['#ff0040', '#ff6600', '#ff00ff', '#00ff88'];
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    container.appendChild(p);
+  }
+}
+createBootParticles();
+
+setTimeout(() => {
+  const boot = document.getElementById('bootScreen');
+  boot.style.opacity = '0';
+  setTimeout(() => {
+    boot.style.display = 'none';
+    const saved = localStorage.getItem('rusiya_modx_logged_in');
+    if (saved === 'true') {
+      checkExpiryAndProceed();
+    } else {
+      document.getElementById('loginScreen').style.display = 'flex';
+    }
+  }, 500);
+}, 7000);
+
+// ===== LOGIN =====
+function handleLogin() {
+  const user = document.getElementById('username').value.trim();
+  const pass = document.getElementById('password').value.trim();
+  const msgEl = document.getElementById('loginMsg');
+
+  if (!user || !pass) {
+    msgEl.textContent = '⚠️ Please enter both fields';
+    msgEl.className = 'login-msg error';
+    return;
+  }
+
+  if (user === CORRECT_USER && pass === CORRECT_PASS) {
+    // Check expiry
+    if (new Date() > EXPIRY_DATE) {
+      msgEl.textContent = '❌ License Expired!';
+      msgEl.className = 'login-msg error';
+      playErrorSound();
+      return;
+    }
+
+    msgEl.textContent = '✅ ACTIVATE';
+    msgEl.className = 'login-msg success';
+    playActivateSound();
+
+    localStorage.setItem('rusiya_modx_logged_in', 'true');
+    addHistory('Login successful', 'green');
+
+    setTimeout(() => {
+      document.getElementById('loginScreen').style.display = 'none';
+      showActivation();
+    }, 1000);
+  } else {
+    msgEl.textContent = '❌ ERROR - Invalid Credentials';
+    msgEl.className = 'login-msg error';
+    playErrorSound();
+    addHistory('Login failed - Wrong credentials', 'red');
+
+    // Shake effect
+    const container = document.querySelector('.login-container');
+    container.style.animation = 'shake 0.5s';
+    setTimeout(() => container.style.animation = '', 500);
+  }
+}
+
+// Enter key support
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && document.getElementById('loginScreen').style.display === 'flex') {
+    handleLogin();
+  }
+});
+
+function checkExpiryAndProceed() {
+  if (new Date() > EXPIRY_DATE) {
+    localStorage.removeItem('rusiya_modx_logged_in');
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('loginMsg').textContent = '❌ License Expired!';
+    document.getElementById('loginMsg').className = 'login-msg error';
+    return;
+  }
+  showMainApp();
+}
+
+// ===== ACTIVATION ANIMATION =====
+function showActivation() {
+  const overlay = document.getElementById('activationOverlay');
+  overlay.style.display = 'flex';
+
+  setTimeout(() => {
+    overlay.style.display = 'none';
+    showMainApp();
+  }, 2500);
+}
+
+// ===== SOUNDS =====
+function playActivateSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const notes = [523.25, 659.25, 783.99, 1046.50];
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.15, ctx.currentTime + i * 0.15);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.15 + 0.4);
+      osc.start(ctx.currentTime + i * 0.15);
+      osc.stop(ctx.currentTime + i * 0.15 + 0.4);
+    });
+  } catch(e) {}
+}
+
+function playErrorSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = 'sawtooth';
+    osc.frequency.value = 150;
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.5);
+  } catch(e) {}
+}
+
+function playToggleSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = 'sine';
+    osc.frequency.value = 880;
+    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.15);
+  } catch(e) {}
+}
+
+// ===== MAIN APP =====
+function showMainApp() {
+  document.getElementById('mainApp').style.display = 'block';
+  detectDevice();
+  detectNetwork();
+  loadToggles();
+  initMatrix();
+  showNotification('success', '🎮 RUSIYA MODX', 'Panel loaded successfully!');
+}
+
+// ===== DEVICE DETECTION =====
+function detectDevice() {
+  const ua = navigator.userAgent;
+  let phoneName = 'Unknown Device';
+  let model = '';
+
+  // Try to extract device info from user agent
+  const androidMatch = ua.match(/\(Linux;.*?Android\s*([\d.]+);?\s*(.*?)\s*(?:Build|;|\))/i);
+  if (androidMatch) {
+    model = androidMatch[2] ? androidMatch[2].trim().replace(/\//g, ' ') : '';
+    if (model) {
+      phoneName = model;
+    }
+  }
+
+  // Common brand detection
+  const brands = {
+    'Samsung': /SM-|Samsung|Galaxy/i,
+    'Xiaomi': /Xiaomi|Redmi|POCO|Mi\s/i,
+    'Realme': /RMX|Realme/i,
+    'OPPO': /OPPO|CPH/i,
+    'Vivo': /Vivo|V\d{4}/i,
+    'Huawei': /Huawei|HUAWEI|Honor/i,
+    'OnePlus': /OnePlus|ONEPLUS/i,
+    'Google': /Pixel/i,
+    'Motorola': /Moto|Motorola/i,
+    'Nokia': /Nokia/i,
+    'Sony': /Sony|Xperia/i,
+    'LG': /LG-|LG\s/i,
+    'Infinix': /Infinix/i,
+    'Tecno': /TECNO/i,
+    'iPhone': /iPhone/i
+  };
+
+  let brand = '';
+  for (const [b, regex] of Object.entries(brands)) {
+    if (regex.test(ua)) {
+      brand = b;
+      break;
+    }
+  }
+
+  if (!phoneName || phoneName === 'Unknown Device') {
+    phoneName = brand ? brand + ' Device' : 'Android Device';
+  }
+
+  document.getElementById('deviceName').textContent = phoneName;
+  document.getElementById('deviceModel').textContent = brand ? brand + ' Mobile' : 'Mobile Device';
+
+  // Android version
+  const androidVer = androidMatch ? androidMatch[1] : 'N/A';
+  document.getElementById('deviceAndroid').textContent = androidVer !== 'N/A' ? 'v' + androidVer : detectiOS() || 'N/A';
+
+  // RAM
+  const ram = navigator.deviceMemory ? navigator.deviceMemory + ' GB' : estimateRAM();
+  document.getElementById('deviceRAM').textContent = ram;
+
+  // Storage
+  if (navigator.storage && navigator.storage.estimate) {
+    navigator.storage.estimate().then(est => {
+      const totalGB = (est.quota / (1024 * 1024 * 1024)).toFixed(0);
+      document.getElementById('deviceStorage').textContent = totalGB + ' GB';
+    }).catch(() => {
+      document.getElementById('deviceStorage').textContent = '64 GB';
+    });
+  } else {
+    document.getElementById('deviceStorage').textContent = '64 GB';
+  }
+
+  // Cores
+  const cores = navigator.hardwareConcurrency || 4;
+  document.getElementById('deviceCores').textContent = cores + ' Cores';
+}
+
+function detectiOS() {
+  const ua = navigator.userAgent;
+  const match = ua.match(/OS (\d+)_/);
+  return match ? 'iOS ' + match[1] : null;
+}
+
+function estimateRAM() {
+  const cores = navigator.hardwareConcurrency || 4;
+  if (cores >= 8) return '8 GB';
+  if (cores >= 6) return '6 GB';
+  if (cores >= 4) return '4 GB';
+  return '3 GB';
+}
+
+// ===== NETWORK DETECTION =====
+function detectNetwork() {
+  const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  let netName = 'Unknown';
+  let netType = 'N/A';
+  let speed = '--';
+
+  if (conn) {
+    const eff = conn.effectiveType || '';
+    const type = conn.type || '';
+
+    if (type === 'wifi') {
+      netName = 'Wi-Fi';
+      netType = 'Wireless';
+      speed = conn.downlink ? conn.downlink.toFixed(1) : '50';
+    } else if (type === 'cellular' || eff) {
+      netType = 'Mobile Data';
+      if (eff === '4g') {
+        netName = 'LTE / 4G';
+        speed = conn.downlink ? conn.downlink.toFixed(1) : '25';
+      } else if (eff === '3g') {
+        netName = '3G Network';
+        speed = conn.downlink ? conn.downlink.toFixed(1) : '5';
+      } else if (eff === '2g') {
+        netName = '2G Network';
+        speed = conn.downlink ? conn.downlink.toFixed(1) : '0.5';
+      } else {
+        netName = eff.toUpperCase() || 'Mobile';
+        speed = conn.downlink ? conn.downlink.toFixed(1) : '10';
+      }
+    } else {
+      netName = 'Connected';
+      netType = type || 'Unknown';
+      speed = conn.downlink ? conn.downlink.toFixed(1) : '10';
+    }
+  } else {
+    if (navigator.onLine) {
+      netName = 'Connected';
+      netType = 'Online';
+      speed = '10';
+    } else {
+      netName = 'Offline';
+      netType = 'No Connection';
+      speed = '0';
+    }
+  }
+
+  // Try to detect provider from timezone
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  let provider = '';
+  if (tz.includes('Colombo')) provider = '🇱🇰 SL Network';
+  else if (tz.includes('Kolkata') || tz.includes('Calcutta')) provider = '🇮🇳 IN Network';
+  else provider = '🌐 ' + netName;
+
+  document.getElementById('networkName').textContent = provider;
+  document.getElementById('networkType').textContent = netType + ' • ' + (conn ? (conn.effectiveType || '').toUpperCase() : 'N/A');
+  document.getElementById('networkSpeed').textContent = speed;
+
+  // Live speed update
+  setInterval(() => {
+    const variation = (Math.random() * 4 - 2).toFixed(1);
+    const base = parseFloat(speed) || 10;
+    const newSpeed = Math.max(1, base + parseFloat(variation)).toFixed(1);
+    document.getElementById('networkSpeed').textContent = newSpeed;
+  }, 3000);
+}
+
+// ===== TOGGLE FEATURES =====
+function toggleFeature(name, el) {
+  const card = document.getElementById('card-' + name);
+  const isOn = el.checked;
+
+  if (isOn) {
+    card.classList.add('active');
+    addHistory(name.toUpperCase() + ' enabled', 'green');
+    showNotification('success', '✅ ' + name.toUpperCase(), 'Feature activated');
+  } else {
+    card.classList.remove('active');
+    addHistory(name.toUpperCase() + ' disabled', 'orange');
+  }
+
+  playToggleSound();
+  saveToggles();
+}
+
+function toggleOptimize(el) {
+  const isOn = el.checked;
+  playToggleSound();
+
+  if (isOn) {
+    const prog = document.getElementById('optimizeProgress');
+    const fill = document.getElementById('optimizeFill');
+    const status = document.getElementById('optimizeStatus');
+    prog.style.display = 'block';
+    fill.style.width = '0%';
+
+    const steps = [
+      { pct: 15, text: 'Clearing cache...' },
+      { pct: 35, text: 'Optimizing RAM...' },
+      { pct: 55, text: 'Boosting CPU...' },
+      { pct: 75, text: 'Fixing network latency...' },
+      { pct: 90, text: 'Finalizing...' },
+      { pct: 100, text: '✅ Optimization complete!' }
+    ];
+
+    steps.forEach((step, i) => {
+      setTimeout(() => {
+        fill.style.width = step.pct + '%';
+        status.textContent = step.text;
+        if (step.pct === 100) {
+          addHistory('Phone optimized', 'green');
+          showNotification('success', '⚡ OPTIMIZED', 'Device performance boosted!');
+          setTimeout(() => {
+            prog.style.display = 'none';
+          }, 2000);
+        }
+      }, (i + 1) * 800);
+    });
+  } else {
+    document.getElementById('optimizeProgress').style.display = 'none';
+    addHistory('Optimization disabled', 'orange');
+  }
+
+  saveToggles();
+}
+
+function saveToggles() {
+  const toggles = {
+    antiban: document.getElementById('toggle-antiban').checked,
+    aimlock: document.getElementById('toggle-aimlock').checked,
+    aimfix: document.getElementById('toggle-aimfix').checked,
+    regedit: document.getElementById('toggle-regedit').checked,
+    optimize: document.getElementById('toggle-optimize').checked
+  };
+  localStorage.setItem('rusiya_modx_toggles', JSON.stringify(toggles));
+}
+
+function loadToggles() {
+  const saved = localStorage.getItem('rusiya_modx_toggles');
+  if (saved) {
+    const toggles = JSON.parse(saved);
+    Object.keys(toggles).forEach(key => {
+      const el = document.getElementById('toggle-' + key);
+      if (el && toggles[key]) {
+        el.checked = true;
+        const card = document.getElementById('card-' + key);
+        if (card) card.classList.add('active');
+      }
+    });
+  }
+}
+
+// ===== LAUNCH GAME =====
+function launchGame() {
+  addHistory('Free Fire launch attempted', 'blue');
+  showNotification('success', '🎮 LAUNCHING', 'Opening Free Fire...');
+
+  setTimeout(() => {
+    // Try multiple Free Fire deep links
+    const links = [
+      'freefire://',
+      'intent://launch#Intent;package=com.dts.freefireth;end',
+      'market://details?id=com.dts.freefireth'
+    ];
+
+    let launched = false;
+
+    // Try freefire:// first
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = links[0];
+    document.body.appendChild(iframe);
+
+    setTimeout(() => {
+      document.body.removeChild(iframe);
+      // Try intent
+      window.location.href = links[1];
+    }, 1500);
+
+    setTimeout(() => {
+      // If still here, try play store
+      if (document.hasFocus()) {
+        window.location.href = links[0];
+      }
+    }, 3000);
+  }, 500);
+}
+
+// ===== SETTINGS =====
+function openSettings() {
+  document.getElementById('settingsPanel').style.display = 'flex';
+  addHistory('Settings opened', 'blue');
+}
+
+function closeSettings() {
+  document.getElementById('settingsPanel').style.display = 'none';
+}
+
+function closeSettingsOutside(e) {
+  if (e.target === document.getElementById('settingsPanel')) {
+    closeSettings();
+  }
+}
+
+// ===== HISTORY =====
+let historyData = JSON.parse(localStorage.getItem('rusiya_modx_history') || '[]');
+
+function addHistory(text, color) {
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+  historyData.unshift({
+    text: text,
+    color: color,
+    time: timeStr + ' • ' + dateStr
+  });
+
+  if (historyData.length > 50) historyData = historyData.slice(0, 50);
+  localStorage.setItem('rusiya_modx_history', JSON.stringify(historyData));
+}
+
+function openHistory() {
+  closeSettings();
+  document.getElementById('historyPanel').style.display = 'flex';
+  renderHistory();
+}
+
+function closeHistory() {
+  document.getElementById('historyPanel').style.display = 'none';
+}
+
+function closeHistoryOutside(e) {
+  if (e.target === document.getElementById('historyPanel')) {
+    closeHistory();
+  }
+}
+
+function renderHistory() {
+  const list = document.getElementById('historyList');
+  if (historyData.length === 0) {
+    list.innerHTML = '<div class="no-history">No history yet</div>';
+    return;
+  }
+
+  list.innerHTML = historyData.map(item => `
+    <div class="history-item">
+      <div class="history-dot ${item.color}"></div>
+      <span class="history-text">${item.text}</span>
+      <span class="history-time">${item.time}</span>
+    </div>
+  `).join('');
+}
+
+// ===== NOTIFICATIONS =====
+function showNotification(type, title, desc) {
+  const notif = document.getElementById('notification');
+  const icon = document.getElementById('notifIcon');
+  const titleEl = document.getElementById('notifTitle');
+  const descEl = document.getElementById('notifDesc');
+
+  notif.className = 'notification ' + type;
+  icon.textContent = type === 'success' ? '✅' : '❌';
+  titleEl.textContent = title;
+  descEl.textContent = desc;
+  notif.style.display = 'block';
+
+  setTimeout(() => {
+    notif.style.display = 'none';
+  }, 3000);
+}
+
+// ===== MATRIX BACKGROUND =====
+function initMatrix() {
+  const canvas = document.getElementById('matrixCanvas');
+  const ctx = canvas.getContext('2d');
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const chars = 'RUSIYAMODX01';
+  const fontSize = 10;
+  const columns = Math.floor(canvas.width / fontSize);
+  const drops = Array(columns).fill(1);
+
+  function drawMatrix() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#ff0040';
+    ctx.font = fontSize + 'px monospace';
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = chars[Math.floor(Math.random() * chars.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+
+  setInterval(drawMatrix, 80);
+
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+}
+
+// ===== SHAKE ANIMATION =====
+const shakeStyle = document.createElement('style');
+shakeStyle.textContent = `
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-10px); }
+    40% { transform: translateX(10px); }
+    60% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+  }
+`;
+document.head.appendChild(shakeStyle);
+
+// ===== TIME DISPLAY (extra) =====
+function updateTime() {
+  const now = new Date();
+  const days = Math.ceil((EXPIRY_DATE - now) / (1000 * 60 * 60 * 24));
+  const expiryEl = document.querySelector('.user-expiry strong');
+  if (expiryEl && days > 0) {
+    expiryEl.textContent = days + ' Days Left';
+    expiryEl.style.color = days < 30 ? '#ff6600' : '#00ff88';
+  }
+}
+setInterval(updateTime, 60000);
+</script>
+
+</body>
+</html>
