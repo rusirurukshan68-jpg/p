@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RUSIYA MODX</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=Press+Start+2P&display=swap');
 
 * {
   margin: 0;
@@ -13,12 +13,23 @@
   box-sizing: border-box;
 }
 
+:root {
+  --neon-blue: #00f0ff;
+  --neon-purple: #b400ff;
+  --neon-pink: #ff00aa;
+  --neon-green: #00ff41;
+  --neon-red: #ff0040;
+  --neon-yellow: #ffee00;
+  --dark-bg: #0a0a0f;
+  --card-bg: rgba(10, 10, 20, 0.85);
+}
+
 body {
   font-family: 'Rajdhani', sans-serif;
-  background: #000;
+  background: var(--dark-bg);
   color: #fff;
-  overflow-x: hidden;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* ===== BOOT SCREEN ===== */
@@ -26,92 +37,81 @@ body {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #0a0a0a 100%);
+  background: linear-gradient(135deg, #0a0a0f 0%, #1a0030 50%, #0a0a0f 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 10000;
+  z-index: 99999;
   transition: opacity 0.5s;
 }
 
 .boot-logo {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 3rem;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid var(--neon-blue);
+  box-shadow: 0 0 30px var(--neon-blue), 0 0 60px var(--neon-purple);
+  animation: bootPulse 1.5s infinite;
+  margin-bottom: 30px;
+  object-fit: cover;
+}
+
+@keyframes bootPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 30px var(--neon-blue); }
+  50% { transform: scale(1.1); box-shadow: 0 0 60px var(--neon-purple), 0 0 100px var(--neon-blue); }
+}
+
+.boot-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 2.5em;
   font-weight: 900;
-  background: linear-gradient(45deg, #ff0040, #ff6600, #ff0040, #ff00ff);
-  background-size: 300% 300%;
+  background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-pink));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: gradientShift 2s ease infinite;
-  text-shadow: 0 0 30px rgba(255,0,64,0.5);
-  margin-bottom: 30px;
+  background-clip: text;
+  text-shadow: none;
+  margin-bottom: 10px;
 }
 
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+.boot-subtitle {
+  font-family: 'Rajdhani', sans-serif;
+  color: #888;
+  font-size: 1em;
+  letter-spacing: 5px;
+  margin-bottom: 40px;
 }
 
-.boot-loader {
-  width: 250px;
+.boot-progress-container {
+  width: 300px;
   height: 4px;
   background: rgba(255,255,255,0.1);
-  border-radius: 2px;
+  border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
-.boot-loader-bar {
+.boot-progress-bar {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #ff0040, #ff6600, #ff00ff);
-  border-radius: 2px;
-  animation: bootLoad 7s ease-in-out forwards;
+  background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-pink));
+  border-radius: 10px;
+  transition: width 0.1s;
+  box-shadow: 0 0 10px var(--neon-blue);
 }
 
-@keyframes bootLoad {
-  0% { width: 0%; }
-  20% { width: 15%; }
-  40% { width: 35%; }
-  60% { width: 60%; }
-  80% { width: 85%; }
-  100% { width: 100%; }
+.boot-percent {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.9em;
+  color: var(--neon-blue);
 }
 
-.boot-text {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.8rem;
-  color: #ff0040;
-  letter-spacing: 3px;
-  animation: blink 1s infinite;
-}
-
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0.3; }
-}
-
-.boot-particles {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.boot-particle {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: #ff0040;
-  border-radius: 50%;
-  animation: floatUp 3s linear infinite;
-}
-
-@keyframes floatUp {
-  0% { transform: translateY(100vh) scale(0); opacity: 0; }
-  50% { opacity: 1; }
-  100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+.boot-status {
+  font-size: 0.75em;
+  color: #555;
+  margin-top: 15px;
+  font-family: 'Rajdhani', sans-serif;
+  letter-spacing: 2px;
 }
 
 /* ===== LOGIN SCREEN ===== */
@@ -120,176 +120,291 @@ body {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: linear-gradient(135deg, #0a0a0a, #1a0a2e, #0a0a0a);
-  z-index: 9000;
+  background: linear-gradient(135deg, #0a0a0f 0%, #150025 30%, #0a0a0f 60%, #001520 100%);
+  z-index: 9999;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+}
+
+.login-particles {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--neon-blue);
+  border-radius: 50%;
+  animation: floatParticle linear infinite;
+  opacity: 0.5;
+}
+
+@keyframes floatParticle {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.5; }
+  90% { opacity: 0.5; }
+  100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
 }
 
 .login-container {
-  background: rgba(20, 10, 40, 0.9);
-  border: 1px solid rgba(255, 0, 64, 0.3);
+  position: relative;
+  z-index: 2;
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 240, 255, 0.2);
   border-radius: 20px;
   padding: 40px 35px;
-  width: 90%;
-  max-width: 400px;
+  width: 380px;
+  max-width: 90vw;
   backdrop-filter: blur(20px);
-  box-shadow: 0 0 40px rgba(255, 0, 64, 0.2), inset 0 0 40px rgba(255, 0, 64, 0.05);
-  position: relative;
-  overflow: hidden;
-}
-
-.login-container::before {
-  content: '';
-  position: absolute;
-  top: -2px; left: -2px;
-  right: -2px; bottom: -2px;
-  background: linear-gradient(45deg, #ff0040, transparent, #ff00ff, transparent);
-  border-radius: 21px;
-  z-index: -1;
-  animation: borderRotate 3s linear infinite;
-}
-
-@keyframes borderRotate {
-  0% { filter: hue-rotate(0deg); }
-  100% { filter: hue-rotate(360deg); }
+  box-shadow: 0 0 40px rgba(0, 240, 255, 0.1), inset 0 0 40px rgba(0,0,0,0.3);
 }
 
 .login-logo {
-  text-align: center;
-  margin-bottom: 30px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 15px;
+  border: 2px solid var(--neon-blue);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+  object-fit: cover;
 }
 
-.login-logo h1 {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 2rem;
-  font-weight: 900;
-  background: linear-gradient(45deg, #ff0040, #ff6600);
+.login-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.6em;
+  text-align: center;
+  background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 5px;
 }
 
-.login-logo .skull {
-  font-size: 3rem;
-  margin-bottom: 10px;
-  display: block;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-}
-
-.login-subtitle {
+.login-sub {
   text-align: center;
-  color: #888;
-  font-size: 0.85rem;
-  margin-bottom: 25px;
+  color: #666;
+  font-size: 0.85em;
+  margin-bottom: 30px;
   letter-spacing: 2px;
 }
 
 .input-group {
-  position: relative;
   margin-bottom: 20px;
+  position: relative;
 }
 
-.input-group i {
-  position: absolute;
-  left: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #ff0040;
-  font-size: 1.1rem;
+.input-group label {
+  display: block;
+  font-size: 0.8em;
+  color: var(--neon-blue);
+  margin-bottom: 8px;
+  font-family: 'Orbitron', monospace;
+  letter-spacing: 2px;
 }
 
 .input-group input {
   width: 100%;
-  padding: 14px 15px 14px 45px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 0, 64, 0.2);
+  padding: 14px 18px;
+  background: rgba(0, 240, 255, 0.05);
+  border: 1px solid rgba(0, 240, 255, 0.2);
   border-radius: 12px;
   color: #fff;
-  font-size: 1rem;
+  font-size: 1em;
   font-family: 'Rajdhani', sans-serif;
-  transition: all 0.3s;
   outline: none;
+  transition: all 0.3s;
 }
 
 .input-group input:focus {
-  border-color: #ff0040;
-  box-shadow: 0 0 15px rgba(255, 0, 64, 0.3);
-  background: rgba(255, 0, 64, 0.05);
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+  background: rgba(0, 240, 255, 0.08);
 }
 
-.input-group input::placeholder {
-  color: #555;
+.input-group .input-icon {
+  position: absolute;
+  right: 15px;
+  top: 42px;
+  color: var(--neon-blue);
+  opacity: 0.5;
 }
 
 .login-btn {
   width: 100%;
-  padding: 14px;
-  background: linear-gradient(45deg, #ff0040, #cc0033);
+  padding: 15px;
+  background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
   border: none;
   border-radius: 12px;
   color: #fff;
-  font-size: 1.1rem;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Orbitron', monospace;
+  font-size: 1em;
   font-weight: 700;
   cursor: pointer;
+  letter-spacing: 3px;
   transition: all 0.3s;
-  text-transform: uppercase;
-  letter-spacing: 2px;
   margin-top: 10px;
+  position: relative;
+  overflow: hidden;
 }
 
 .login-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 25px rgba(255, 0, 64, 0.5);
+  box-shadow: 0 5px 30px rgba(0, 240, 255, 0.4);
 }
 
-.login-btn:active {
-  transform: scale(0.98);
+.login-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(transparent, rgba(255,255,255,0.1), transparent);
+  transform: rotate(45deg);
+  animation: btnShine 3s infinite;
+}
+
+@keyframes btnShine {
+  0% { transform: translateX(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) rotate(45deg); }
 }
 
 .login-msg {
   text-align: center;
   margin-top: 15px;
-  font-size: 0.9rem;
+  font-size: 0.9em;
   min-height: 25px;
   font-weight: 600;
 }
 
-.login-msg.success { color: #00ff88; }
-.login-msg.error { color: #ff0040; }
+.login-msg.success { color: var(--neon-green); }
+.login-msg.error { color: var(--neon-red); }
 
 .expiry-info {
   text-align: center;
-  margin-top: 15px;
-  font-size: 0.75rem;
-  color: #666;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  font-size: 0.75em;
+  color: #444;
+}
+
+.expiry-info span {
+  color: var(--neon-yellow);
 }
 
 /* ===== MAIN APP ===== */
 #mainApp {
   display: none;
   min-height: 100vh;
-  background: #0a0a0f;
+  padding-bottom: 80px;
 }
 
-/* Header */
+/* ===== PIN SCREEN ===== */
+#pinScreen {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #0a0a0f, #150025);
+  z-index: 8888;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.pin-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.3em;
+  color: var(--neon-blue);
+  margin-bottom: 10px;
+  letter-spacing: 3px;
+}
+
+.pin-subtitle {
+  color: #555;
+  font-size: 0.85em;
+  margin-bottom: 30px;
+}
+
+.pin-dots {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.pin-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 240, 255, 0.3);
+  transition: all 0.3s;
+}
+
+.pin-dot.filled {
+  background: var(--neon-blue);
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 10px var(--neon-blue);
+}
+
+.pin-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 75px);
+  gap: 12px;
+}
+
+.pin-key {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background: rgba(0, 240, 255, 0.05);
+  border: 1px solid rgba(0, 240, 255, 0.15);
+  color: #fff;
+  font-family: 'Orbitron', monospace;
+  font-size: 1.4em;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pin-key:active {
+  background: rgba(0, 240, 255, 0.2);
+  transform: scale(0.95);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+}
+
+.pin-key.empty {
+  background: transparent;
+  border-color: transparent;
+  cursor: default;
+}
+
+.pin-key.del {
+  font-size: 0.7em;
+  color: var(--neon-red);
+  border-color: rgba(255, 0, 64, 0.2);
+}
+
+/* ===== HEADER ===== */
 .app-header {
-  background: linear-gradient(135deg, rgba(20, 10, 40, 0.95), rgba(10, 5, 20, 0.95));
-  border-bottom: 1px solid rgba(255, 0, 64, 0.3);
+  background: rgba(10, 10, 20, 0.95);
+  backdrop-filter: blur(20px);
   padding: 15px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.1);
   position: sticky;
   top: 0;
   z-index: 100;
-  backdrop-filter: blur(10px);
 }
 
 .header-left {
@@ -299,21 +414,27 @@ body {
 }
 
 .header-logo {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.2rem;
-  font-weight: 900;
-  background: linear-gradient(45deg, #ff0040, #ff6600);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--neon-blue);
+  object-fit: cover;
+}
+
+.header-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.1em;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .header-version {
-  font-size: 0.65rem;
-  background: rgba(255, 0, 64, 0.2);
-  padding: 2px 8px;
-  border-radius: 10px;
-  color: #ff0040;
-  border: 1px solid rgba(255, 0, 64, 0.3);
+  font-size: 0.6em;
+  color: #555;
+  font-family: 'Orbitron', monospace;
 }
 
 .header-right {
@@ -322,277 +443,195 @@ body {
   gap: 15px;
 }
 
-.header-status {
+.header-settings {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(0, 240, 255, 0.08);
+  border: 1px solid rgba(0, 240, 255, 0.15);
+  color: var(--neon-blue);
   display: flex;
   align-items: center;
-  gap: 5px;
-  font-size: 0.75rem;
-  color: #00ff88;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2em;
+  transition: all 0.3s;
+}
+
+.header-settings:hover {
+  background: rgba(0, 240, 255, 0.15);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
 }
 
 .status-dot {
   width: 8px;
   height: 8px;
-  background: #00ff88;
   border-radius: 50%;
+  background: var(--neon-green);
+  box-shadow: 0 0 10px var(--neon-green);
   animation: statusPulse 2s infinite;
 }
 
 @keyframes statusPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4); }
-  50% { box-shadow: 0 0 0 6px rgba(0, 255, 136, 0); }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 
-.settings-btn {
-  background: none;
-  border: 1px solid rgba(255, 0, 64, 0.3);
-  color: #ff0040;
-  width: 35px;
-  height: 35px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 1.1rem;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.settings-btn:hover {
-  background: rgba(255, 0, 64, 0.1);
-  border-color: #ff0040;
-}
-
-/* Device Info Card */
-.device-card {
-  margin: 15px;
-  background: linear-gradient(135deg, rgba(20, 10, 40, 0.8), rgba(30, 15, 50, 0.8));
-  border: 1px solid rgba(255, 0, 64, 0.2);
+/* ===== DEVICE INFO SECTION ===== */
+.device-info-section {
+  margin: 20px;
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 240, 255, 0.1);
   border-radius: 16px;
   padding: 20px;
-  position: relative;
-  overflow: hidden;
+  backdrop-filter: blur(10px);
 }
 
-.device-card::after {
-  content: '';
-  position: absolute;
-  top: 0; right: 0;
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(circle, rgba(255, 0, 64, 0.1), transparent);
-  border-radius: 50%;
-}
-
-.device-header {
+.section-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 15px;
+  gap: 10px;
+  margin-bottom: 18px;
 }
 
-.device-icon {
-  width: 45px;
-  height: 45px;
-  background: linear-gradient(135deg, #ff0040, #cc0033);
-  border-radius: 12px;
+.section-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
+  font-size: 1.1em;
 }
 
-.device-name {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #fff;
-}
-
-.device-model {
-  font-size: 0.75rem;
-  color: #888;
-}
-
-.device-specs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.spec-item {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-  padding: 10px 12px;
-}
-
-.spec-label {
-  font-size: 0.65rem;
-  color: #666;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 4px;
-}
-
-.spec-value {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #ff0040;
-}
-
-/* Network Card */
-.network-card {
-  margin: 0 15px 15px;
-  background: linear-gradient(135deg, rgba(0, 40, 20, 0.5), rgba(10, 30, 40, 0.5));
-  border: 1px solid rgba(0, 255, 136, 0.2);
-  border-radius: 16px;
-  padding: 15px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.network-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.network-icon {
-  font-size: 1.5rem;
-}
-
-.network-name {
-  font-weight: 700;
-  font-size: 1rem;
-  color: #00ff88;
-}
-
-.network-type {
-  font-size: 0.7rem;
-  color: #888;
-}
-
-.network-speed {
-  text-align: right;
-}
-
-.speed-value {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.3rem;
-  font-weight: 900;
-  color: #00ff88;
-}
-
-.speed-unit {
-  font-size: 0.65rem;
-  color: #888;
-}
-
-/* PIN Section */
-.pin-section {
-  margin: 0 15px 15px;
-}
+.section-icon.blue { background: rgba(0, 240, 255, 0.1); color: var(--neon-blue); }
+.section-icon.purple { background: rgba(180, 0, 255, 0.1); color: var(--neon-purple); }
+.section-icon.green { background: rgba(0, 255, 65, 0.1); color: var(--neon-green); }
+.section-icon.pink { background: rgba(255, 0, 170, 0.1); color: var(--neon-pink); }
 
 .section-title {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #ff0040;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  text-transform: uppercase;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.85em;
   letter-spacing: 2px;
 }
 
-.section-title::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(255, 0, 64, 0.3), transparent);
+.section-sub {
+  font-size: 0.7em;
+  color: #555;
 }
 
-/* Toggle Cards */
-.toggle-card {
-  background: linear-gradient(135deg, rgba(20, 10, 40, 0.6), rgba(15, 8, 30, 0.8));
-  border: 1px solid rgba(255, 0, 64, 0.15);
-  border-radius: 14px;
-  padding: 16px 18px;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.device-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.device-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 14px;
   transition: all 0.3s;
 }
 
-.toggle-card:hover {
-  border-color: rgba(255, 0, 64, 0.4);
-  transform: translateX(3px);
+.device-item:hover {
+  border-color: rgba(0, 240, 255, 0.2);
+  background: rgba(0, 240, 255, 0.03);
 }
 
-.toggle-card.active {
-  border-color: rgba(0, 255, 136, 0.4);
-  background: linear-gradient(135deg, rgba(0, 40, 20, 0.3), rgba(10, 20, 15, 0.5));
+.device-item-label {
+  font-size: 0.7em;
+  color: #555;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  text-transform: uppercase;
 }
 
-.toggle-left {
+.device-item-value {
+  font-size: 0.95em;
+  font-weight: 600;
+  color: var(--neon-blue);
+}
+
+.device-item-value.green { color: var(--neon-green); }
+.device-item-value.purple { color: var(--neon-purple); }
+.device-item-value.pink { color: var(--neon-pink); }
+.device-item-value.yellow { color: var(--neon-yellow); }
+
+/* ===== MOD FEATURES ===== */
+.mod-section {
+  margin: 20px;
+  background: var(--card-bg);
+  border: 1px solid rgba(180, 0, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  margin-bottom: 10px;
+  transition: all 0.3s;
+}
+
+.feature-item:last-child { margin-bottom: 0; }
+
+.feature-item:hover {
+  border-color: rgba(180, 0, 255, 0.2);
+}
+
+.feature-left {
   display: flex;
   align-items: center;
   gap: 14px;
 }
 
-.toggle-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+.feature-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
-  background: rgba(255, 0, 64, 0.15);
-  border: 1px solid rgba(255, 0, 64, 0.2);
+  font-size: 1.1em;
 }
 
-.toggle-card.active .toggle-icon {
-  background: rgba(0, 255, 136, 0.15);
-  border-color: rgba(0, 255, 136, 0.3);
+.feature-icon.red { background: rgba(255, 0, 64, 0.1); color: var(--neon-red); }
+.feature-icon.blue { background: rgba(0, 240, 255, 0.1); color: var(--neon-blue); }
+.feature-icon.green { background: rgba(0, 255, 65, 0.1); color: var(--neon-green); }
+.feature-icon.purple { background: rgba(180, 0, 255, 0.1); color: var(--neon-purple); }
+.feature-icon.yellow { background: rgba(255, 238, 0, 0.1); color: var(--neon-yellow); }
+
+.feature-name {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.8em;
+  letter-spacing: 1px;
 }
 
-.toggle-name {
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: #ddd;
-}
-
-.toggle-desc {
-  font-size: 0.7rem;
-  color: #666;
+.feature-desc {
+  font-size: 0.7em;
+  color: #555;
   margin-top: 2px;
 }
 
-.toggle-card.active .toggle-name {
-  color: #00ff88;
-}
-
-.toggle-value {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.7rem;
-  color: #ff6600;
-  margin-right: 10px;
-  background: rgba(255, 102, 0, 0.1);
-  padding: 3px 8px;
-  border-radius: 6px;
-  border: 1px solid rgba(255, 102, 0, 0.2);
+.feature-value {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.75em;
+  color: var(--neon-yellow);
+  margin-top: 3px;
 }
 
 /* Toggle Switch */
 .toggle-switch {
   position: relative;
-  width: 50px;
-  height: 26px;
+  width: 52px;
+  height: 28px;
   cursor: pointer;
 }
 
@@ -606,7 +645,7 @@ body {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 26px;
+  border-radius: 28px;
   transition: all 0.4s;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -614,179 +653,145 @@ body {
 .toggle-slider::before {
   content: '';
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  background: #666;
+  background: #444;
   top: 2px;
   left: 3px;
   transition: all 0.4s;
 }
 
 .toggle-switch input:checked + .toggle-slider {
-  background: rgba(0, 255, 136, 0.3);
-  border-color: rgba(0, 255, 136, 0.5);
+  background: rgba(0, 255, 65, 0.2);
+  border-color: var(--neon-green);
+  box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
 }
 
 .toggle-switch input:checked + .toggle-slider::before {
   transform: translateX(23px);
-  background: #00ff88;
-  box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+  background: var(--neon-green);
+  box-shadow: 0 0 8px var(--neon-green);
 }
 
-/* Launch Button */
+/* ===== LAUNCH BUTTON ===== */
 .launch-section {
-  margin: 20px 15px;
+  margin: 25px 20px;
 }
 
 .launch-btn {
   width: 100%;
-  padding: 18px;
-  background: linear-gradient(45deg, #ff0040, #ff3366, #ff0040);
+  padding: 20px;
+  background: linear-gradient(135deg, #ff0040, #ff6600, #ff0040);
   background-size: 200% 200%;
   animation: launchGradient 3s ease infinite;
   border: none;
   border-radius: 16px;
   color: #fff;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.1rem;
+  font-family: 'Orbitron', monospace;
+  font-size: 1.1em;
   font-weight: 900;
   cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  transition: all 0.3s;
+  letter-spacing: 4px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 5px 30px rgba(255, 0, 64, 0.4);
+  transition: all 0.3s;
+  box-shadow: 0 5px 30px rgba(255, 0, 64, 0.3);
 }
 
 @keyframes launchGradient {
-  0%, 100% { background-position: 0% 50%; }
+  0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-.launch-btn::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-  transform: rotate(45deg);
-  animation: shimmer 3s infinite;
-}
-
-@keyframes shimmer {
-  0% { transform: translateX(-100%) rotate(45deg); }
-  100% { transform: translateX(100%) rotate(45deg); }
+.launch-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 40px rgba(255, 0, 64, 0.5);
 }
 
 .launch-btn:active {
-  transform: scale(0.97);
+  transform: translateY(0);
 }
 
-/* Optimize Button */
-.optimize-card {
-  margin: 0 15px 15px;
-  background: linear-gradient(135deg, rgba(40, 20, 0, 0.5), rgba(30, 10, 0, 0.5));
-  border: 1px solid rgba(255, 102, 0, 0.3);
-  border-radius: 14px;
-  padding: 16px 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.launch-btn .launch-icon {
+  margin-right: 10px;
+  font-size: 1.3em;
 }
 
-.optimize-left {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+.launch-sub {
+  text-align: center;
+  color: #444;
+  font-size: 0.75em;
+  margin-top: 10px;
+  font-family: 'Orbitron', monospace;
+  letter-spacing: 2px;
 }
 
-.optimize-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-  background: rgba(255, 102, 0, 0.15);
-  border: 1px solid rgba(255, 102, 0, 0.2);
-  animation: spin 4s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.optimize-name {
-  font-weight: 700;
-  color: #ff6600;
-}
-
-.optimize-desc {
-  font-size: 0.7rem;
-  color: #888;
-}
-
-/* Settings Panel */
+/* ===== SETTINGS PANEL ===== */
 #settingsPanel {
   display: none;
   position: fixed;
+  top: 0; right: 0;
+  width: 100%; height: 100%;
+  z-index: 5000;
+}
+
+.settings-overlay {
+  position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  z-index: 5000;
-  align-items: flex-end;
-  justify-content: center;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(5px);
 }
 
-.settings-content {
-  background: linear-gradient(135deg, #1a0a2e, #0a0a1a);
-  width: 100%;
-  max-width: 500px;
-  max-height: 85vh;
-  border-radius: 20px 20px 0 0;
-  padding: 25px 20px;
+.settings-drawer {
+  position: absolute;
+  top: 0; right: 0;
+  width: 340px;
+  max-width: 85vw;
+  height: 100%;
+  background: rgba(10, 10, 20, 0.98);
+  border-left: 1px solid rgba(0, 240, 255, 0.1);
+  padding: 30px 20px;
   overflow-y: auto;
-  border-top: 2px solid rgba(255, 0, 64, 0.5);
-  animation: slideUp 0.3s ease;
+  animation: slideIn 0.3s ease;
 }
 
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
-
-.settings-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 25px;
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
 }
 
 .settings-title {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #ff0040;
+  font-family: 'Orbitron', monospace;
+  font-size: 1.2em;
+  letter-spacing: 3px;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-title span {
+  color: var(--neon-blue);
 }
 
 .settings-close {
-  background: rgba(255, 0, 64, 0.1);
-  border: 1px solid rgba(255, 0, 64, 0.3);
-  color: #ff0040;
+  position: absolute;
+  top: 25px;
+  right: 20px;
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  cursor: pointer;
-  font-size: 1.2rem;
+  background: rgba(255, 0, 64, 0.1);
+  border: 1px solid rgba(255, 0, 64, 0.2);
+  color: var(--neon-red);
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  font-size: 1.1em;
   transition: all 0.3s;
 }
 
@@ -794,101 +799,106 @@ body {
   background: rgba(255, 0, 64, 0.2);
 }
 
-.settings-item {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 14px;
-  padding: 16px 18px;
-  margin-bottom: 10px;
+.setting-item {
   display: flex;
   align-items: center;
   gap: 14px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  margin-bottom: 12px;
   cursor: pointer;
   transition: all 0.3s;
 }
 
-.settings-item:hover {
-  border-color: rgba(255, 0, 64, 0.3);
-  background: rgba(255, 0, 64, 0.05);
-  transform: translateX(5px);
+.setting-item:hover {
+  border-color: rgba(0, 240, 255, 0.2);
+  background: rgba(0, 240, 255, 0.03);
 }
 
-.settings-item-icon {
+.setting-item-icon {
   width: 42px;
   height: 42px;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1.1em;
   flex-shrink: 0;
 }
 
-.si-purple { background: rgba(128, 0, 255, 0.15); border: 1px solid rgba(128, 0, 255, 0.3); }
-.si-green { background: rgba(0, 255, 136, 0.1); border: 1px solid rgba(0, 255, 136, 0.2); }
-.si-blue { background: rgba(0, 136, 255, 0.1); border: 1px solid rgba(0, 136, 255, 0.2); }
-.si-orange { background: rgba(255, 136, 0, 0.1); border: 1px solid rgba(255, 136, 0, 0.2); }
-.si-red { background: rgba(255, 0, 64, 0.1); border: 1px solid rgba(255, 0, 64, 0.2); }
+.setting-item-icon.wa { background: rgba(37, 211, 102, 0.1); color: #25d366; }
+.setting-item-icon.hist { background: rgba(0, 240, 255, 0.1); color: var(--neon-blue); }
+.setting-item-icon.store { background: rgba(255, 238, 0, 0.1); color: var(--neon-yellow); }
+.setting-item-icon.dl { background: rgba(0, 255, 65, 0.1); color: var(--neon-green); }
 
-.settings-item-text h3 {
-  font-size: 0.95rem;
-  font-weight: 700;
-  margin-bottom: 2px;
+.setting-item-text {
+  flex: 1;
 }
 
-.settings-item-text p {
-  font-size: 0.7rem;
-  color: #666;
+.setting-item-name {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.75em;
+  letter-spacing: 1px;
 }
 
-.settings-item-arrow {
-  margin-left: auto;
+.setting-item-desc {
+  font-size: 0.7em;
   color: #555;
-  font-size: 0.8rem;
+  margin-top: 3px;
 }
 
-.creator-info {
+.setting-item-arrow {
+  color: #333;
+  font-size: 1.2em;
+}
+
+.settings-footer {
+  margin-top: 40px;
   text-align: center;
-  margin-top: 25px;
   padding-top: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.creator-info p {
-  font-size: 0.7rem;
-  color: #444;
-  margin-bottom: 3px;
+.settings-footer p {
+  font-size: 0.7em;
+  color: #333;
+  margin-bottom: 5px;
 }
 
-.creator-name {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.8rem;
-  color: #ff0040 !important;
-  font-weight: 700;
+.settings-footer .creator {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.75em;
+  background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 2px;
 }
 
-/* History Panel */
+/* ===== HISTORY PANEL ===== */
 #historyPanel {
   display: none;
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  z-index: 5000;
-  align-items: flex-end;
+  z-index: 6000;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(5px);
+  align-items: center;
   justify-content: center;
 }
 
-.history-content {
-  background: linear-gradient(135deg, #1a0a2e, #0a0a1a);
-  width: 100%;
-  max-width: 500px;
-  max-height: 85vh;
-  border-radius: 20px 20px 0 0;
-  padding: 25px 20px;
+.history-container {
+  background: rgba(10, 10, 20, 0.98);
+  border: 1px solid rgba(0, 240, 255, 0.1);
+  border-radius: 20px;
+  width: 380px;
+  max-width: 90vw;
+  max-height: 80vh;
   overflow-y: auto;
-  border-top: 2px solid rgba(0, 136, 255, 0.5);
-  animation: slideUp 0.3s ease;
+  padding: 25px;
 }
 
 .history-header {
@@ -899,1081 +909,1321 @@ body {
 }
 
 .history-title {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.1rem;
-  color: #0088ff;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.9em;
+  letter-spacing: 2px;
+  color: var(--neon-blue);
 }
 
 .history-close {
-  background: rgba(0, 136, 255, 0.1);
-  border: 1px solid rgba(0, 136, 255, 0.3);
-  color: #0088ff;
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  cursor: pointer;
-  font-size: 1.2rem;
+  background: rgba(255, 0, 64, 0.1);
+  border: 1px solid rgba(255, 0, 64, 0.2);
+  color: var(--neon-red);
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  font-size: 0.9em;
 }
 
 .history-item {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 14px 16px;
+  padding: 12px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 10px;
   margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  font-size: 0.8em;
 }
 
-.history-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
+.history-item .time {
+  color: #444;
+  font-size: 0.8em;
 }
 
-.history-dot.green { background: #00ff88; }
-.history-dot.red { background: #ff0040; }
-.history-dot.blue { background: #0088ff; }
-.history-dot.orange { background: #ff6600; }
-
-.history-text {
-  font-size: 0.85rem;
-  color: #aaa;
+.history-item .action {
+  color: var(--neon-green);
+  margin-top: 3px;
 }
 
-.history-time {
-  font-size: 0.65rem;
-  color: #555;
-  margin-left: auto;
-  flex-shrink: 0;
-}
-
-.no-history {
+.history-empty {
   text-align: center;
-  color: #555;
-  padding: 40px;
-  font-size: 0.9rem;
-}
-
-/* Notification Popup */
-.notification {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  left: 20px;
-  background: rgba(20, 10, 40, 0.95);
-  border: 1px solid rgba(255, 0, 64, 0.5);
-  border-radius: 14px;
-  padding: 15px 20px;
-  z-index: 9999;
-  display: none;
-  animation: slideDown 0.3s ease;
-  backdrop-filter: blur(10px);
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-@keyframes slideDown {
-  from { transform: translateY(-100%); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-.notification.success {
-  border-color: rgba(0, 255, 136, 0.5);
-}
-
-.notification.error {
-  border-color: rgba(255, 0, 64, 0.5);
-}
-
-.notif-content {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.notif-icon {
-  font-size: 1.5rem;
-}
-
-.notif-text h4 {
-  font-size: 0.9rem;
-  margin-bottom: 2px;
-}
-
-.notif-text p {
-  font-size: 0.7rem;
-  color: #888;
-}
-
-/* Matrix rain background */
-.matrix-bg {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: -1;
-  opacity: 0.03;
-  pointer-events: none;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 0, 64, 0.3);
-  border-radius: 2px;
-}
-
-/* Footer */
-.app-footer {
-  text-align: center;
-  padding: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  margin-top: 10px;
-}
-
-.footer-text {
-  font-size: 0.65rem;
   color: #333;
-  margin-bottom: 5px;
+  font-size: 0.85em;
+  padding: 30px;
 }
 
-.footer-creator {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.7rem;
-  color: #ff0040;
-  font-weight: 700;
-}
-
-/* Activation animation */
-.activation-overlay {
+/* ===== BOTTOM NAV ===== */
+.bottom-nav {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.9);
-  z-index: 8000;
-  display: none;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(10, 10, 20, 0.95);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(0, 240, 255, 0.1);
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-around;
+  z-index: 100;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 5px 15px;
+  border-radius: 12px;
+  transition: all 0.3s;
+  color: #444;
+}
+
+.nav-item.active {
+  color: var(--neon-blue);
+}
+
+.nav-item:hover {
+  background: rgba(0, 240, 255, 0.05);
+}
+
+.nav-item .nav-icon { font-size: 1.3em; }
+.nav-item .nav-label {
+  font-size: 0.6em;
+  font-family: 'Orbitron', monospace;
+  letter-spacing: 1px;
+}
+
+/* ===== NETWORK INFO ===== */
+.network-section {
+  margin: 20px;
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 255, 65, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.network-speed {
+  display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  gap: 20px;
+  margin-top: 15px;
 }
 
-.activation-check {
+.speed-circle {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  border: 3px solid #00ff88;
+  border: 3px solid rgba(0, 255, 65, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.speed-value {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.4em;
+  font-weight: 900;
+  color: var(--neon-green);
+}
+
+.speed-unit {
+  font-size: 0.6em;
+  color: #555;
+  font-family: 'Orbitron', monospace;
+}
+
+.speed-label {
+  font-size: 0.65em;
+  color: #444;
+  font-family: 'Orbitron', monospace;
+  letter-spacing: 1px;
+  margin-top: 5px;
+  text-align: center;
+}
+
+/* ===== OPTIMIZE ===== */
+.optimize-section {
+  margin: 20px;
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 238, 0, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+}
+
+/* ===== USER WELCOME ===== */
+.user-welcome {
+  margin: 20px;
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.05), rgba(180, 0, 255, 0.05));
+  border: 1px solid rgba(0, 240, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.welcome-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
-  color: #00ff88;
-  animation: scaleIn 0.5s ease;
-  box-shadow: 0 0 40px rgba(0, 255, 136, 0.3);
+  font-family: 'Orbitron', monospace;
+  font-size: 1.2em;
+  font-weight: 900;
+  flex-shrink: 0;
 }
 
-@keyframes scaleIn {
-  from { transform: scale(0); }
-  to { transform: scale(1); }
+.welcome-text h3 {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.9em;
+  letter-spacing: 2px;
 }
 
-.activation-text {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.5rem;
-  color: #00ff88;
-  margin-top: 20px;
-  animation: fadeInUp 0.5s ease 0.3s both;
+.welcome-text p {
+  font-size: 0.75em;
+  color: #555;
+  margin-top: 3px;
 }
 
+.welcome-status {
+  margin-left: auto;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(0, 255, 65, 0.1);
+  border: 1px solid rgba(0, 255, 65, 0.2);
+  color: var(--neon-green);
+  font-family: 'Orbitron', monospace;
+  font-size: 0.65em;
+  letter-spacing: 2px;
+}
+
+/* ===== ANIMATIONS ===== */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.optimize-progress {
+.animate-in {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.delay-1 { animation-delay: 0.1s; opacity: 0; }
+.delay-2 { animation-delay: 0.2s; opacity: 0; }
+.delay-3 { animation-delay: 0.3s; opacity: 0; }
+.delay-4 { animation-delay: 0.4s; opacity: 0; }
+.delay-5 { animation-delay: 0.5s; opacity: 0; }
+.delay-6 { animation-delay: 0.6s; opacity: 0; }
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0, 240, 255, 0.2); border-radius: 10px; }
+
+/* ===== EXPIRED SCREEN ===== */
+#expiredScreen {
   display: none;
-  width: 100%;
-  margin-top: 10px;
-}
-
-.optimize-bar-bg {
-  width: 100%;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.optimize-bar-fill {
-  width: 0%;
-  height: 100%;
-  background: linear-gradient(90deg, #ff6600, #00ff88);
-  border-radius: 3px;
-  transition: width 0.3s;
-}
-
-.optimize-status {
-  font-size: 0.7rem;
-  color: #ff6600;
-  margin-top: 5px;
-  text-align: center;
-}
-
-/* User welcome */
-.user-welcome {
-  margin: 15px;
-  background: linear-gradient(135deg, rgba(0, 40, 60, 0.5), rgba(0, 20, 40, 0.5));
-  border: 1px solid rgba(0, 136, 255, 0.2);
-  border-radius: 14px;
-  padding: 14px 18px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.user-avatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #ff0040, #ff6600);
-  display: flex;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #0a0a0f, #200000);
+  z-index: 99998;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-weight: 900;
-  font-size: 1.1rem;
-  font-family: 'Orbitron', sans-serif;
 }
 
-.user-info h3 {
-  font-size: 0.95rem;
-  font-weight: 700;
+.expired-icon {
+  font-size: 4em;
+  margin-bottom: 20px;
+  animation: shake 0.5s infinite;
 }
 
-.user-info p {
-  font-size: 0.65rem;
-  color: #0088ff;
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
 }
 
-.user-expiry {
-  margin-left: auto;
-  text-align: right;
+.expired-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.5em;
+  color: var(--neon-red);
+  letter-spacing: 3px;
+  margin-bottom: 10px;
 }
 
-.user-expiry span {
-  font-size: 0.6rem;
-  color: #666;
-  display: block;
+.expired-text {
+  color: #555;
+  font-size: 0.9em;
+  text-align: center;
+  max-width: 300px;
 }
 
-.user-expiry strong {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.7rem;
-  color: #00ff88;
+/* ===== RESPONSIVE ===== */
+@media (max-width: 400px) {
+  .device-grid {
+    grid-template-columns: 1fr;
+  }
+  .login-container {
+    padding: 30px 20px;
+  }
+  .boot-title {
+    font-size: 1.8em;
+  }
 }
 
-/* Responsive */
-@media (max-width: 380px) {
-  .boot-logo { font-size: 2.2rem; }
-  .login-logo h1 { font-size: 1.5rem; }
-  .device-specs { grid-template-columns: 1fr; }
+/* Glitch effect */
+.glitch {
+  position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch::before {
+  animation: glitch-1 2s infinite linear alternate-reverse;
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+  -webkit-text-fill-color: var(--neon-blue);
+}
+
+.glitch::after {
+  animation: glitch-2 3s infinite linear alternate-reverse;
+  clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+  -webkit-text-fill-color: var(--neon-purple);
+}
+
+@keyframes glitch-1 {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-2px); }
+  40% { transform: translateX(2px); }
+  60% { transform: translateX(-1px); }
+  80% { transform: translateX(1px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes glitch-2 {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(2px); }
+  40% { transform: translateX(-2px); }
+  60% { transform: translateX(1px); }
+  80% { transform: translateX(-1px); }
+  100% { transform: translateX(0); }
+}
+
+/* Feature active glow */
+.feature-item.active {
+  border-color: rgba(0, 255, 65, 0.2);
+  background: rgba(0, 255, 65, 0.02);
+}
+
+/* Scan line overlay */
+.scan-lines {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 50;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
 }
 </style>
 </head>
 <body>
 
-<!-- BOOT SCREEN -->
+<!-- SCAN LINES OVERLAY -->
+<div class="scan-lines"></div>
+
+<!-- ===== BOOT SCREEN ===== -->
 <div id="bootScreen">
-  <div class="boot-particles" id="bootParticles"></div>
-  <div class="boot-logo">RUSIYA MODX</div>
-  <div class="boot-loader">
-    <div class="boot-loader-bar"></div>
+  <img src="https://i.ibb.co/SXQSYV2s/file-000000000c3471fa832b723d62fd89b8.png" alt="RUSIYA MODX" class="boot-logo">
+  <div class="boot-title glitch" data-text="RUSIYA MODX">RUSIYA MODX</div>
+  <div class="boot-subtitle">GAMING PANEL</div>
+  <div class="boot-progress-container">
+    <div class="boot-progress-bar" id="bootProgress"></div>
   </div>
-  <div class="boot-text">INITIALIZING SYSTEM...</div>
+  <div class="boot-percent" id="bootPercent">0%</div>
+  <div class="boot-status" id="bootStatus">INITIALIZING SYSTEM...</div>
 </div>
 
-<!-- LOGIN SCREEN -->
+<!-- ===== LOGIN SCREEN ===== -->
 <div id="loginScreen">
+  <div class="login-particles" id="loginParticles"></div>
   <div class="login-container">
-    <div class="login-logo">
-      <span class="skull">💀</span>
-      <h1>RUSIYA MODX</h1>
-    </div>
-    <div class="login-subtitle">⚡ PREMIUM PANEL ACCESS ⚡</div>
+    <img src="https://i.ibb.co/SXQSYV2s/file-000000000c3471fa832b723d62fd89b8.png" alt="Logo" class="login-logo">
+    <div class="login-title">RUSIYA MODX</div>
+    <div class="login-sub">AUTHENTICATION REQUIRED</div>
+    
     <div class="input-group">
-      <span style="position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#ff0040;">👤</span>
-      <input type="text" id="username" placeholder="Username" autocomplete="off">
+      <label>⟐ USERNAME</label>
+      <input type="text" id="loginUser" placeholder="Enter username" autocomplete="off">
+      <div class="input-icon">👤</div>
     </div>
+    
     <div class="input-group">
-      <span style="position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#ff0040;">🔒</span>
-      <input type="password" id="password" placeholder="Password" autocomplete="off">
+      <label>⟐ PASSWORD</label>
+      <input type="password" id="loginPass" placeholder="Enter password" autocomplete="off">
+      <div class="input-icon">🔒</div>
     </div>
-    <button class="login-btn" onclick="handleLogin()">🔓 LOGIN</button>
+    
+    <button class="login-btn" onclick="attemptLogin()">⟐ LOGIN ⟐</button>
+    
     <div class="login-msg" id="loginMsg"></div>
-    <div class="expiry-info">License Expiry: 2027/05/19</div>
-  </div>
-</div>
-
-<!-- ACTIVATION OVERLAY -->
-<div class="activation-overlay" id="activationOverlay">
-  <div class="activation-check">✓</div>
-  <div class="activation-text">ACTIVATED</div>
-</div>
-
-<!-- NOTIFICATION -->
-<div class="notification" id="notification">
-  <div class="notif-content">
-    <span class="notif-icon" id="notifIcon">✅</span>
-    <div class="notif-text">
-      <h4 id="notifTitle">Success</h4>
-      <p id="notifDesc">Panel activated successfully</p>
+    
+    <div class="expiry-info">
+      License valid until: <span>2027/05/19</span>
     </div>
   </div>
 </div>
 
-<!-- MAIN APP -->
-<div id="mainApp">
-  <canvas class="matrix-bg" id="matrixCanvas"></canvas>
+<!-- ===== PIN SCREEN ===== -->
+<div id="pinScreen">
+  <div class="pin-title">ENTER PIN</div>
+  <div class="pin-subtitle">Security verification required</div>
+  <div class="pin-dots" id="pinDots">
+    <div class="pin-dot" id="dot0"></div>
+    <div class="pin-dot" id="dot1"></div>
+    <div class="pin-dot" id="dot2"></div>
+    <div class="pin-dot" id="dot3"></div>
+  </div>
+  <div class="pin-pad">
+    <div class="pin-key" onclick="pinInput(1)">1</div>
+    <div class="pin-key" onclick="pinInput(2)">2</div>
+    <div class="pin-key" onclick="pinInput(3)">3</div>
+    <div class="pin-key" onclick="pinInput(4)">4</div>
+    <div class="pin-key" onclick="pinInput(5)">5</div>
+    <div class="pin-key" onclick="pinInput(6)">6</div>
+    <div class="pin-key" onclick="pinInput(7)">7</div>
+    <div class="pin-key" onclick="pinInput(8)">8</div>
+    <div class="pin-key" onclick="pinInput(9)">9</div>
+    <div class="pin-key empty"></div>
+    <div class="pin-key" onclick="pinInput(0)">0</div>
+    <div class="pin-key del" onclick="pinDelete()">DEL</div>
+  </div>
+</div>
 
+<!-- ===== EXPIRED SCREEN ===== -->
+<div id="expiredScreen">
+  <div class="expired-icon">⚠️</div>
+  <div class="expired-title">LICENSE EXPIRED</div>
+  <div class="expired-text">Your RUSIYA MODX license has expired. Please contact admin to renew your subscription.</div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div id="mainApp">
   <!-- Header -->
-  <header class="app-header">
+  <div class="app-header">
     <div class="header-left">
-      <span class="header-logo">RUSIYA MODX</span>
-      <span class="header-version">V3.0</span>
+      <img src="https://i.ibb.co/SXQSYV2s/file-000000000c3471fa832b723d62fd89b8.png" alt="Logo" class="header-logo">
+      <div>
+        <div class="header-title">RUSIYA MODX</div>
+        <div class="header-version">v3.0 PREMIUM</div>
+      </div>
     </div>
     <div class="header-right">
-      <div class="header-status">
-        <span class="status-dot"></span>
-        <span>ACTIVE</span>
-      </div>
-      <button class="settings-btn" onclick="openSettings()">⚙️</button>
+      <div class="status-dot"></div>
+      <div class="header-settings" onclick="openSettings()">⚙️</div>
     </div>
-  </header>
+  </div>
 
   <!-- User Welcome -->
-  <div class="user-welcome">
-    <div class="user-avatar">R</div>
-    <div class="user-info">
+  <div class="user-welcome animate-in delay-1">
+    <div class="welcome-avatar">R</div>
+    <div class="welcome-text">
       <h3>Welcome, RAVI</h3>
-      <p>Premium Member</p>
+      <p>Premium Member • Expires 2027/05/19</p>
     </div>
-    <div class="user-expiry">
-      <span>Expires</span>
-      <strong>2027/05/19</strong>
-    </div>
+    <div class="welcome-status">ACTIVE</div>
   </div>
 
   <!-- Device Info -->
-  <div class="device-card">
-    <div class="device-header">
-      <div class="device-icon">📱</div>
+  <div class="device-info-section animate-in delay-2">
+    <div class="section-header">
+      <div class="section-icon blue">📱</div>
       <div>
-        <div class="device-name" id="deviceName">Detecting...</div>
-        <div class="device-model" id="deviceModel">Auto-scanning device</div>
+        <div class="section-title">DEVICE INFO</div>
+        <div class="section-sub">Auto-detected device specifications</div>
       </div>
     </div>
-    <div class="device-specs">
-      <div class="spec-item">
-        <div class="spec-label">RAM</div>
-        <div class="spec-value" id="deviceRAM">--</div>
+    <div class="device-grid">
+      <div class="device-item">
+        <div class="device-item-label">Phone Name</div>
+        <div class="device-item-value" id="phoneName">Detecting...</div>
       </div>
-      <div class="spec-item">
-        <div class="spec-label">Storage</div>
-        <div class="spec-value" id="deviceStorage">--</div>
+      <div class="device-item">
+        <div class="device-item-label">Android Version</div>
+        <div class="device-item-value green" id="androidVer">Detecting...</div>
       </div>
-      <div class="spec-item">
-        <div class="spec-label">Android</div>
-        <div class="spec-value" id="deviceAndroid">--</div>
+      <div class="device-item">
+        <div class="device-item-label">RAM</div>
+        <div class="device-item-value purple" id="phoneRAM">Detecting...</div>
       </div>
-      <div class="spec-item">
-        <div class="spec-label">Cores</div>
-        <div class="spec-value" id="deviceCores">--</div>
+      <div class="device-item">
+        <div class="device-item-label">ROM / Storage</div>
+        <div class="device-item-value pink" id="phoneROM">Detecting...</div>
+      </div>
+      <div class="device-item">
+        <div class="device-item-label">Screen Resolution</div>
+        <div class="device-item-value yellow" id="phoneScreen">Detecting...</div>
+      </div>
+      <div class="device-item">
+        <div class="device-item-label">Platform</div>
+        <div class="device-item-value" id="phonePlatform">Detecting...</div>
       </div>
     </div>
   </div>
 
   <!-- Network Info -->
-  <div class="network-card">
-    <div class="network-left">
-      <span class="network-icon">📶</span>
+  <div class="network-section animate-in delay-3">
+    <div class="section-header">
+      <div class="section-icon green">📶</div>
       <div>
-        <div class="network-name" id="networkName">Detecting...</div>
-        <div class="network-type" id="networkType">Scanning network</div>
+        <div class="section-title">NETWORK STATUS</div>
+        <div class="section-sub">Real-time connection monitoring</div>
+      </div>
+    </div>
+    <div class="device-grid" style="margin-bottom:15px;">
+      <div class="device-item">
+        <div class="device-item-label">Provider</div>
+        <div class="device-item-value green" id="netProvider">Detecting...</div>
+      </div>
+      <div class="device-item">
+        <div class="device-item-label">Connection Type</div>
+        <div class="device-item-value yellow" id="netType">Detecting...</div>
       </div>
     </div>
     <div class="network-speed">
-      <div class="speed-value" id="networkSpeed">--</div>
-      <div class="speed-unit">Mbps</div>
+      <div>
+        <div class="speed-circle">
+          <div class="speed-value" id="dlSpeed">--</div>
+          <div class="speed-unit">Mbps</div>
+        </div>
+        <div class="speed-label">DOWNLOAD</div>
+      </div>
+      <div>
+        <div class="speed-circle" style="border-color: rgba(180, 0, 255, 0.2);">
+          <div class="speed-value" id="ulSpeed" style="color: var(--neon-purple);">--</div>
+          <div class="speed-unit">Mbps</div>
+        </div>
+        <div class="speed-label">UPLOAD</div>
+      </div>
+      <div>
+        <div class="speed-circle" style="border-color: rgba(255, 238, 0, 0.2);">
+          <div class="speed-value" id="pingVal" style="color: var(--neon-yellow);">--</div>
+          <div class="speed-unit">ms</div>
+        </div>
+        <div class="speed-label">PING</div>
+      </div>
     </div>
   </div>
 
-  <!-- PIN Features -->
-  <div class="pin-section">
-    <div class="section-title">🎯 GAME FEATURES</div>
+  <!-- MOD Features -->
+  <div class="mod-section animate-in delay-4">
+    <div class="section-header">
+      <div class="section-icon purple">🎮</div>
+      <div>
+        <div class="section-title">MOD FEATURES</div>
+        <div class="section-sub">Game enhancement controls</div>
+      </div>
+    </div>
 
     <!-- ANTI BAN -->
-    <div class="toggle-card" id="card-antiban">
-      <div class="toggle-left">
-        <div class="toggle-icon">🛡️</div>
+    <div class="feature-item" id="feat-antiban">
+      <div class="feature-left">
+        <div class="feature-icon red">🛡️</div>
         <div>
-          <div class="toggle-name">ANTI BAN</div>
-          <div class="toggle-desc">Advanced anti-ban protection</div>
+          <div class="feature-name">ANTI BAN</div>
+          <div class="feature-desc">Protection system v3.0</div>
         </div>
       </div>
       <label class="toggle-switch">
-        <input type="checkbox" id="toggle-antiban" onchange="toggleFeature('antiban', this)">
-        <span class="toggle-slider"></span>
+        <input type="checkbox" id="toggleAntiban" onchange="toggleFeature('antiban', this)">
+        <div class="toggle-slider"></div>
       </label>
     </div>
 
     <!-- AIM LOCK -->
-    <div class="toggle-card" id="card-aimlock">
-      <div class="toggle-left">
-        <div class="toggle-icon">🎯</div>
+    <div class="feature-item" id="feat-aimlock">
+      <div class="feature-left">
+        <div class="feature-icon blue">🎯</div>
         <div>
-          <div class="toggle-name">AIM LOCK</div>
-          <div class="toggle-desc">Auto aim-lock system</div>
+          <div class="feature-name">AIM LOCK</div>
+          <div class="feature-desc">Auto target lock system</div>
+          <div class="feature-value">Sensitivity: 65</div>
         </div>
       </div>
-      <span class="toggle-value">60</span>
       <label class="toggle-switch">
-        <input type="checkbox" id="toggle-aimlock" onchange="toggleFeature('aimlock', this)">
-        <span class="toggle-slider"></span>
+        <input type="checkbox" id="toggleAimlock" onchange="toggleFeature('aimlock', this)">
+        <div class="toggle-slider"></div>
       </label>
     </div>
 
     <!-- AIM FIX -->
-    <div class="toggle-card" id="card-aimfix">
-      <div class="toggle-left">
-        <div class="toggle-icon">🔫</div>
+    <div class="feature-item" id="feat-aimfix">
+      <div class="feature-left">
+        <div class="feature-icon green">🔧</div>
         <div>
-          <div class="toggle-name">AIM FIX</div>
-          <div class="toggle-desc">Crosshair aim fix module</div>
+          <div class="feature-name">AIM FIX</div>
+          <div class="feature-desc">Crosshair stabilization</div>
         </div>
       </div>
       <label class="toggle-switch">
-        <input type="checkbox" id="toggle-aimfix" onchange="toggleFeature('aimfix', this)">
-        <span class="toggle-slider"></span>
+        <input type="checkbox" id="toggleAimfix" onchange="toggleFeature('aimfix', this)">
+        <div class="toggle-slider"></div>
       </label>
     </div>
 
     <!-- REGEDIT -->
-    <div class="toggle-card" id="card-regedit">
-      <div class="toggle-left">
-        <div class="toggle-icon">📝</div>
+    <div class="feature-item" id="feat-regedit">
+      <div class="feature-left">
+        <div class="feature-icon purple">📝</div>
         <div>
-          <div class="toggle-name">REGEDIT</div>
-          <div class="toggle-desc">Registry editor config</div>
+          <div class="feature-name">REGEDIT</div>
+          <div class="feature-desc">Registry optimization</div>
+          <div class="feature-value">Level: 40</div>
         </div>
       </div>
-      <span class="toggle-value">20</span>
       <label class="toggle-switch">
-        <input type="checkbox" id="toggle-regedit" onchange="toggleFeature('regedit', this)">
-        <span class="toggle-slider"></span>
+        <input type="checkbox" id="toggleRegedit" onchange="toggleFeature('regedit', this)">
+        <div class="toggle-slider"></div>
       </label>
     </div>
   </div>
 
   <!-- Optimize -->
-  <div class="optimize-card" id="optimizeCard">
-    <div class="optimize-left">
-      <div class="optimize-icon">⚡</div>
+  <div class="optimize-section animate-in delay-5">
+    <div class="section-header">
+      <div class="section-icon yellow" style="background: rgba(255, 238, 0, 0.1); color: var(--neon-yellow);">⚡</div>
       <div>
-        <div class="optimize-name">PHONE OPTIMIZE</div>
-        <div class="optimize-desc">Boost device performance</div>
+        <div class="section-title">PHONE OPTIMISE</div>
+        <div class="section-sub">Boost device performance</div>
       </div>
     </div>
-    <label class="toggle-switch">
-      <input type="checkbox" id="toggle-optimize" onchange="toggleOptimize(this)">
-      <span class="toggle-slider"></span>
-    </label>
-  </div>
-  <div class="optimize-progress" id="optimizeProgress" style="margin: 0 15px 15px;">
-    <div class="optimize-bar-bg">
-      <div class="optimize-bar-fill" id="optimizeFill"></div>
+    <div class="feature-item" id="feat-optimize">
+      <div class="feature-left">
+        <div class="feature-icon yellow">🚀</div>
+        <div>
+          <div class="feature-name">OPTIMIZE</div>
+          <div class="feature-desc">RAM boost & cache clear</div>
+        </div>
+      </div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="toggleOptimize" onchange="toggleFeature('optimize', this)">
+        <div class="toggle-slider"></div>
+      </label>
     </div>
-    <div class="optimize-status" id="optimizeStatus">Optimizing...</div>
   </div>
 
   <!-- Launch Button -->
-  <div class="launch-section">
+  <div class="launch-section animate-in delay-6">
     <button class="launch-btn" onclick="launchGame()">
-      🎮 LAUNCH FREE FIRE
+      <span class="launch-icon">🔥</span> LAUNCH FREE FIRE
     </button>
+    <div class="launch-sub">AUTO INJECT & OPEN GAME</div>
   </div>
 
-  <!-- Footer -->
-  <div class="app-footer">
-    <div class="footer-text">This panel created by</div>
-    <div class="footer-creator">RUSIRU RUKSHAN</div>
-    <div class="footer-text" style="margin-top:5px;">© 2024 RUSIYA MODX - All Rights Reserved</div>
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <div class="nav-item active" onclick="scrollToTop()">
+      <div class="nav-icon">🏠</div>
+      <div class="nav-label">HOME</div>
+    </div>
+    <div class="nav-item" onclick="openSettings()">
+      <div class="nav-icon">⚙️</div>
+      <div class="nav-label">SETTINGS</div>
+    </div>
+    <div class="nav-item" onclick="launchGame()">
+      <div class="nav-icon">🎮</div>
+      <div class="nav-label">LAUNCH</div>
+    </div>
+    <div class="nav-item" onclick="openSettings()">
+      <div class="nav-icon">👤</div>
+      <div class="nav-label">PROFILE</div>
+    </div>
   </div>
 </div>
 
-<!-- SETTINGS PANEL -->
-<div id="settingsPanel" onclick="closeSettingsOutside(event)">
-  <div class="settings-content" onclick="event.stopPropagation()">
-    <div class="settings-header">
-      <span class="settings-title">⚙️ SETTINGS</span>
-      <button class="settings-close" onclick="closeSettings()">✕</button>
-    </div>
+<!-- ===== SETTINGS PANEL ===== -->
+<div id="settingsPanel">
+  <div class="settings-overlay" onclick="closeSettings()"></div>
+  <div class="settings-drawer">
+    <div class="settings-title">⚙️ <span>SETTINGS</span></div>
+    <div class="settings-close" onclick="closeSettings()">✕</div>
 
-    <div class="settings-item" onclick="window.open('https://sites.google.com/view/panlelravi', '_blank')">
-      <div class="settings-item-icon si-purple">🎨</div>
-      <div class="settings-item-text">
-        <h3>Skin File</h3>
-        <p>Open skin file panel</p>
+    <!-- WhatsApp -->
+    <div class="setting-item" onclick="openWhatsApp()">
+      <div class="setting-item-icon wa">💬</div>
+      <div class="setting-item-text">
+        <div class="setting-item-name">CHAT WITH ADMIN</div>
+        <div class="setting-item-desc">WhatsApp Panel Bug Report</div>
       </div>
-      <span class="settings-item-arrow">→</span>
+      <div class="setting-item-arrow">›</div>
     </div>
 
-    <div class="settings-item" onclick="window.open('https://wa.me/94779028682', '_blank')">
-      <div class="settings-item-icon si-green">💬</div>
-      <div class="settings-item-text">
-        <h3>Chat with WhatsApp</h3>
-        <p>Account panel bug report - 77 902 8682</p>
+    <!-- History -->
+    <div class="setting-item" onclick="openHistory()">
+      <div class="setting-item-icon hist">📋</div>
+      <div class="setting-item-text">
+        <div class="setting-item-name">HISTORY</div>
+        <div class="setting-item-desc">View activity log</div>
       </div>
-      <span class="settings-item-arrow">→</span>
+      <div class="setting-item-arrow">›</div>
     </div>
 
-    <div class="settings-item" onclick="openHistory()">
-      <div class="settings-item-icon si-blue">📋</div>
-      <div class="settings-item-text">
-        <h3>History</h3>
-        <p>View activity history</p>
+    <!-- Top Up Store -->
+    <div class="setting-item" onclick="openTopUp()">
+      <div class="setting-item-icon store">🏪</div>
+      <div class="setting-item-text">
+        <div class="setting-item-name">RUSIYA TOP UP STORE</div>
+        <div class="setting-item-desc">Diamond & UC top up service</div>
       </div>
-      <span class="settings-item-arrow">→</span>
+      <div class="setting-item-arrow">›</div>
     </div>
 
-    <div class="settings-item" onclick="window.open('https://rusirurukshan68-jpg.github.io/RUSIYA-TOPUP-Store-/', '_blank')">
-      <div class="settings-item-icon si-orange">💎</div>
-      <div class="settings-item-text">
-        <h3>RUSIYA TOP UP Store</h3>
-        <p>Diamond & top up store</p>
+    <!-- Free Mod Menu -->
+    <div class="setting-item" onclick="openModDownload()">
+      <div class="setting-item-icon dl">📥</div>
+      <div class="setting-item-text">
+        <div class="setting-item-name">FREE MOD MENU</div>
+        <div class="setting-item-desc">Download latest mod menu</div>
       </div>
-      <span class="settings-item-arrow">→</span>
+      <div class="setting-item-arrow">›</div>
     </div>
 
-    <div class="settings-item" onclick="window.open('https://www.mediafire.com/file/knuqez56o8kkrxp/RUSIYA+MODX++BODY+HEADSHOT+.xapk/file', '_blank')">
-      <div class="settings-item-icon si-red">📥</div>
-      <div class="settings-item-text">
-        <h3>FREE MOD MENU Download</h3>
-        <p>RUSIYA MODX Body Headshot XAPK</p>
-      </div>
-      <span class="settings-item-arrow">→</span>
-    </div>
-
-    <div class="creator-info">
+    <div class="settings-footer">
       <p>This panel created by</p>
-      <p class="creator-name">✨ RUSIRU RUKSHAN ✨</p>
-      <p style="margin-top:8px;">Version 3.0 • Build 2024</p>
+      <div class="creator">✦ RUSIRU RUKSHAN ✦</div>
+      <p style="margin-top: 10px; font-size: 0.6em; color: #222;">RUSIYA MODX v3.0 © 2025</p>
     </div>
   </div>
 </div>
 
-<!-- HISTORY PANEL -->
-<div id="historyPanel" onclick="closeHistoryOutside(event)">
-  <div class="history-content" onclick="event.stopPropagation()">
+<!-- ===== HISTORY PANEL ===== -->
+<div id="historyPanel">
+  <div class="history-container">
     <div class="history-header">
-      <span class="history-title">📋 HISTORY</span>
-      <button class="history-close" onclick="closeHistory()">✕</button>
+      <div class="history-title">📋 ACTIVITY LOG</div>
+      <div class="history-close" onclick="closeHistory()">✕</div>
     </div>
-    <div id="historyList">
-      <div class="no-history">No history yet</div>
-    </div>
+    <div id="historyList"></div>
   </div>
 </div>
 
+<!-- ===== AUDIO ===== -->
 <script>
-// ===== CONSTANTS =====
-const CORRECT_USER = "RAVI";
-const CORRECT_PASS = "2009";
-const EXPIRY_DATE = new Date("2027-05-19");
+// ===== GLOBAL VARIABLES =====
+let pinCode = '';
+  const CORRECT_PIN = '9685';
+const CORRECT_USER = 'RAVI';
+const CORRECT_PASS = '2009';
+const EXPIRY_DATE = new Date('2027-05-19');
+let activityHistory = [];
+let featureStates = {};
 
-// ===== BOOT SCREEN =====
-function createBootParticles() {
-  const container = document.getElementById('bootParticles');
-  for (let i = 0; i < 30; i++) {
-    const p = document.createElement('div');
-    p.className = 'boot-particle';
-    p.style.left = Math.random() * 100 + '%';
-    p.style.animationDelay = Math.random() * 3 + 's';
-    p.style.animationDuration = (2 + Math.random() * 3) + 's';
-    const colors = ['#ff0040', '#ff6600', '#ff00ff', '#00ff88'];
-    p.style.background = colors[Math.floor(Math.random() * colors.length)];
-    container.appendChild(p);
-  }
-}
-createBootParticles();
+// ===== SOUND FUNCTIONS =====
+const AudioContext = window.AudioContext || window.webkitAudioContext;
 
-setTimeout(() => {
-  const boot = document.getElementById('bootScreen');
-  boot.style.opacity = '0';
-  setTimeout(() => {
-    boot.style.display = 'none';
-    const saved = localStorage.getItem('rusiya_modx_logged_in');
-    if (saved === 'true') {
-      checkExpiryAndProceed();
-    } else {
-      document.getElementById('loginScreen').style.display = 'flex';
-    }
-  }, 500);
-}, 7000);
-
-// ===== LOGIN =====
-function handleLogin() {
-  const user = document.getElementById('username').value.trim();
-  const pass = document.getElementById('password').value.trim();
-  const msgEl = document.getElementById('loginMsg');
-
-  if (!user || !pass) {
-    msgEl.textContent = '⚠️ Please enter both fields';
-    msgEl.className = 'login-msg error';
-    return;
-  }
-
-  if (user === CORRECT_USER && pass === CORRECT_PASS) {
-    // Check expiry
-    if (new Date() > EXPIRY_DATE) {
-      msgEl.textContent = '❌ License Expired!';
-      msgEl.className = 'login-msg error';
-      playErrorSound();
-      return;
-    }
-
-    msgEl.textContent = '✅ ACTIVATE';
-    msgEl.className = 'login-msg success';
-    playActivateSound();
-
-    localStorage.setItem('rusiya_modx_logged_in', 'true');
-    addHistory('Login successful', 'green');
-
-    setTimeout(() => {
-      document.getElementById('loginScreen').style.display = 'none';
-      showActivation();
-    }, 1000);
-  } else {
-    msgEl.textContent = '❌ ERROR - Invalid Credentials';
-    msgEl.className = 'login-msg error';
-    playErrorSound();
-    addHistory('Login failed - Wrong credentials', 'red');
-
-    // Shake effect
-    const container = document.querySelector('.login-container');
-    container.style.animation = 'shake 0.5s';
-    setTimeout(() => container.style.animation = '', 500);
-  }
-}
-
-// Enter key support
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && document.getElementById('loginScreen').style.display === 'flex') {
-    handleLogin();
-  }
-});
-
-function checkExpiryAndProceed() {
-  if (new Date() > EXPIRY_DATE) {
-    localStorage.removeItem('rusiya_modx_logged_in');
-    document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('loginMsg').textContent = '❌ License Expired!';
-    document.getElementById('loginMsg').className = 'login-msg error';
-    return;
-  }
-  showMainApp();
-}
-
-// ===== ACTIVATION ANIMATION =====
-function showActivation() {
-  const overlay = document.getElementById('activationOverlay');
-  overlay.style.display = 'flex';
-
-  setTimeout(() => {
-    overlay.style.display = 'none';
-    showMainApp();
-  }, 2500);
-}
-
-// ===== SOUNDS =====
 function playActivateSound() {
   try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const notes = [523.25, 659.25, 783.99, 1046.50];
-    notes.forEach((freq, i) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.type = 'sine';
-      osc.frequency.value = freq;
-      gain.gain.setValueAtTime(0.15, ctx.currentTime + i * 0.15);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.15 + 0.4);
-      osc.start(ctx.currentTime + i * 0.15);
-      osc.stop(ctx.currentTime + i * 0.15 + 0.4);
-    });
+    const ctx = new AudioContext();
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(523, ctx.currentTime);
+    oscillator.frequency.setValueAtTime(659, ctx.currentTime + 0.1);
+    oscillator.frequency.setValueAtTime(784, ctx.currentTime + 0.2);
+    oscillator.frequency.setValueAtTime(1047, ctx.currentTime + 0.3);
+    gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+    oscillator.start(ctx.currentTime);
+    oscillator.stop(ctx.currentTime + 0.5);
   } catch(e) {}
 }
 
 function playErrorSound() {
   try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.type = 'sawtooth';
-    osc.frequency.value = 150;
-    gain.gain.setValueAtTime(0.15, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
-    osc.start();
-    osc.stop(ctx.currentTime + 0.5);
+    const ctx = new AudioContext();
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    oscillator.type = 'square';
+    oscillator.frequency.setValueAtTime(200, ctx.currentTime);
+    oscillator.frequency.setValueAtTime(150, ctx.currentTime + 0.15);
+    gainNode.gain.setValueAtTime(0.2, ctx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+    oscillator.start(ctx.currentTime);
+    oscillator.stop(ctx.currentTime + 0.3);
   } catch(e) {}
 }
 
 function playToggleSound() {
   try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.type = 'sine';
-    osc.frequency.value = 880;
-    gain.gain.setValueAtTime(0.1, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
-    osc.start();
-    osc.stop(ctx.currentTime + 0.15);
+    const ctx = new AudioContext();
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(800, ctx.currentTime);
+    oscillator.frequency.setValueAtTime(1200, ctx.currentTime + 0.05);
+    gainNode.gain.setValueAtTime(0.15, ctx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+    oscillator.start(ctx.currentTime);
+    oscillator.stop(ctx.currentTime + 0.1);
   } catch(e) {}
+}
+
+function playLaunchSound() {
+  try {
+    const ctx = new AudioContext();
+    for(let i = 0; i < 5; i++) {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(400 + (i * 200), ctx.currentTime + (i * 0.08));
+      gain.gain.setValueAtTime(0.15, ctx.currentTime + (i * 0.08));
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + (i * 0.08) + 0.15);
+      osc.start(ctx.currentTime + (i * 0.08));
+      osc.stop(ctx.currentTime + (i * 0.08) + 0.15);
+    }
+  } catch(e) {}
+}
+
+// ===== SPEECH FUNCTION =====
+function speak(text) {
+  try {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+      utterance.lang = 'en-US';
+      window.speechSynthesis.speak(utterance);
+    }
+  } catch(e) {}
+}
+
+// ===== LOCAL STORAGE =====
+function saveToStorage(key, value) {
+  try {
+    localStorage.setItem('rusiyaModx_' + key, JSON.stringify(value));
+  } catch(e) {}
+}
+
+function loadFromStorage(key) {
+  try {
+    const val = localStorage.getItem('rusiyaModx_' + key);
+    return val ? JSON.parse(val) : null;
+  } catch(e) { return null; }
+}
+
+function addHistory(action) {
+  const entry = {
+    time: new Date().toLocaleString(),
+    action: action
+  };
+  activityHistory.unshift(entry);
+  if (activityHistory.length > 50) activityHistory.pop();
+  saveToStorage('history', activityHistory);
+}
+
+// ===== BOOT SCREEN =====
+function startBoot() {
+  const progressBar = document.getElementById('bootProgress');
+  const percentText = document.getElementById('bootPercent');
+  const statusText = document.getElementById('bootStatus');
+  
+  const statuses = [
+    'INITIALIZING SYSTEM...',
+    'LOADING CORE MODULES...',
+    'CONNECTING TO SERVER...',
+    'VERIFYING LICENSE...',
+    'LOADING MOD ENGINE...',
+    'PREPARING INTERFACE...',
+    'SYSTEM READY'
+  ];
+  
+  let progress = 0;
+  const duration = 7000;
+  const interval = 50;
+  const step = (100 / (duration / interval));
+  
+  const bootInterval = setInterval(() => {
+    progress += step;
+    if (progress > 100) progress = 100;
+    
+    progressBar.style.width = progress + '%';
+    percentText.textContent = Math.floor(progress) + '%';
+    
+    const statusIndex = Math.min(Math.floor(progress / (100 / statuses.length)), statuses.length - 1);
+    statusText.textContent = statuses[statusIndex];
+    
+    if (progress >= 100) {
+      clearInterval(bootInterval);
+      setTimeout(() => {
+        document.getElementById('bootScreen').style.opacity = '0';
+        setTimeout(() => {
+          document.getElementById('bootScreen').style.display = 'none';
+          checkExpiry();
+        }, 500);
+      }, 300);
+    }
+  }, interval);
+}
+
+// ===== CHECK EXPIRY =====
+function checkExpiry() {
+  const now = new Date();
+  if (now > EXPIRY_DATE) {
+    document.getElementById('expiredScreen').style.display = 'flex';
+    playErrorSound();
+    speak('License expired');
+    return;
+  }
+  
+  // Check if already logged in
+  const savedLogin = loadFromStorage('loggedIn');
+  if (savedLogin) {
+    showPinScreen();
+  } else {
+    showLogin();
+  }
+}
+
+// ===== LOGIN =====
+function showLogin() {
+  const loginScreen = document.getElementById('loginScreen');
+  loginScreen.style.display = 'flex';
+  createParticles();
+}
+
+function createParticles() {
+  const container = document.getElementById('loginParticles');
+  for (let i = 0; i < 50; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDuration = (Math.random() * 8 + 4) + 's';
+    particle.style.animationDelay = (Math.random() * 5) + 's';
+    particle.style.width = (Math.random() * 3 + 1) + 'px';
+    particle.style.height = particle.style.width;
+    
+    const colors = ['var(--neon-blue)', 'var(--neon-purple)', 'var(--neon-pink)'];
+    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+    
+    container.appendChild(particle);
+  }
+}
+
+function attemptLogin() {
+  const user = document.getElementById('loginUser').value.trim();
+  const pass = document.getElementById('loginPass').value.trim();
+  const msg = document.getElementById('loginMsg');
+  
+  if (!user || !pass) {
+    msg.textContent = '⚠ Please fill in all fields';
+    msg.className = 'login-msg error';
+    playErrorSound();
+    return;
+  }
+  
+  if (user === CORRECT_USER && pass === CORRECT_PASS) {
+    msg.textContent = '✓ ACTIVATED - Access Granted!';
+    msg.className = 'login-msg success';
+    playActivateSound();
+    speak('Activated! Welcome to Rusiya Mod X');
+    
+    saveToStorage('loggedIn', true);
+    addHistory('User logged in successfully');
+    
+    setTimeout(() => {
+      document.getElementById('loginScreen').style.display = 'none';
+      showPinScreen();
+    }, 1500);
+  } else {
+    msg.textContent = '✕ ERROR - Invalid Credentials!';
+    msg.className = 'login-msg error';
+    playErrorSound();
+    speak('Error! Invalid credentials');
+    
+    document.querySelector('.login-container').style.animation = 'shake 0.5s';
+    setTimeout(() => {
+      document.querySelector('.login-container').style.animation = '';
+    }, 500);
+  }
+}
+
+// Enter key support
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    const loginScreen = document.getElementById('loginScreen');
+    if (loginScreen.style.display === 'flex') {
+      attemptLogin();
+    }
+  }
+});
+
+// ===== PIN SCREEN =====
+function showPinScreen() {
+  document.getElementById('pinScreen').style.display = 'flex';
+}
+
+function pinInput(num) {
+  if (pinCode.length >= 4) return;
+  
+  pinCode += num.toString();
+  updatePinDots();
+  playToggleSound();
+  
+  if (pinCode.length === 4) {
+    setTimeout(() => {
+      if (pinCode === CORRECT_PIN) {
+        playActivateSound();
+        speak('Pin verified. Welcome!');
+        addHistory('PIN verification successful');
+        document.getElementById('pinScreen').style.display = 'none';
+        showMainApp();
+      } else {
+        playErrorSound();
+        speak('Wrong pin');
+        pinCode = '';
+        updatePinDots();
+        
+        document.getElementById('pinScreen').style.animation = 'shake 0.5s';
+        setTimeout(() => {
+          document.getElementById('pinScreen').style.animation = '';
+        }, 500);
+      }
+    }, 300);
+  }
+}
+
+function pinDelete() {
+  if (pinCode.length > 0) {
+    pinCode = pinCode.slice(0, -1);
+    updatePinDots();
+    playToggleSound();
+  }
+}
+
+function updatePinDots() {
+  for (let i = 0; i < 4; i++) {
+    const dot = document.getElementById('dot' + i);
+    if (i < pinCode.length) {
+      dot.classList.add('filled');
+    } else {
+      dot.classList.remove('filled');
+    }
+  }
 }
 
 // ===== MAIN APP =====
 function showMainApp() {
   document.getElementById('mainApp').style.display = 'block';
-  detectDevice();
-  detectNetwork();
-  loadToggles();
-  initMatrix();
-  showNotification('success', '🎮 RUSIYA MODX', 'Panel loaded successfully!');
+  detectDeviceInfo();
+  detectNetworkInfo();
+  loadFeatureStates();
+  loadHistory();
+  addHistory('Panel opened');
 }
 
 // ===== DEVICE DETECTION =====
-function detectDevice() {
+function detectDeviceInfo() {
   const ua = navigator.userAgent;
+  
+  // Phone Name
   let phoneName = 'Unknown Device';
-  let model = '';
-
-  // Try to extract device info from user agent
-  const androidMatch = ua.match(/\(Linux;.*?Android\s*([\d.]+);?\s*(.*?)\s*(?:Build|;|\))/i);
+  
+  const mobilePatterns = [
+    { regex: /Samsung\s?(SM-[A-Z0-9]+|Galaxy\s?[A-Za-z0-9\s\+]+)/i, brand: 'Samsung' },
+    { regex: /Xiaomi|Redmi|POCO|Mi\s/i, brand: '' },
+    { regex: /HUAWEI\s?([A-Za-z0-9\-]+)/i, brand: 'Huawei' },
+    { regex: /OPPO\s?([A-Za-z0-9\-]+)/i, brand: 'OPPO' },
+    { regex: /vivo\s?([A-Za-z0-9\-]+)/i, brand: 'Vivo' },
+    { regex: /Realme\s?([A-Za-z0-9\-]+)/i, brand: 'Realme' },
+    { regex: /OnePlus\s?([A-Za-z0-9\-]+)/i, brand: 'OnePlus' },
+    { regex: /iPhone/i, brand: 'Apple' },
+    { regex: /iPad/i, brand: 'Apple' },
+    { regex: /Pixel\s?([0-9]+)/i, brand: 'Google' },
+    { regex: /Nokia/i, brand: 'Nokia' },
+    { regex: /LG/i, brand: 'LG' },
+    { regex: /Sony|Xperia/i, brand: 'Sony' },
+    { regex: /Motorola|moto/i, brand: 'Motorola' },
+    { regex: /Infinix/i, brand: 'Infinix' },
+    { regex: /Tecno/i, brand: 'Tecno' },
+    { regex: /itel/i, brand: 'itel' },
+  ];
+  
+  // Try to extract phone model from user agent
+  const modelMatch = ua.match(/;\s*([^;)]+)\s*Build\//i);
+  if (modelMatch) {
+    phoneName = modelMatch[1].trim();
+  } else if (/iPhone/.test(ua)) {
+    phoneName = 'iPhone';
+    const iosVer = ua.match(/iPhone OS (\d+)/);
+    if (iosVer) phoneName = 'iPhone (iOS ' + iosVer[1] + ')';
+  } else if (/iPad/.test(ua)) {
+    phoneName = 'iPad';
+  } else if (/Macintosh/.test(ua)) {
+    phoneName = 'Mac / Desktop';
+  } else if (/Windows/.test(ua)) {
+    phoneName = 'Windows PC';
+  } else if (/Linux/.test(ua)) {
+    phoneName = 'Linux Device';
+  }
+  
+  document.getElementById('phoneName').textContent = phoneName;
+  
+  // Android Version
+  let androidVer = 'N/A';
+  const androidMatch = ua.match(/Android\s?([\d.]+)/i);
   if (androidMatch) {
-    model = androidMatch[2] ? androidMatch[2].trim().replace(/\//g, ' ') : '';
-    if (model) {
-      phoneName = model;
+    androidVer = 'Android ' + androidMatch[1];
+  } else if (/iPhone|iPad/.test(ua)) {
+    const iosMatch = ua.match(/OS\s?([\d_]+)/);
+    if (iosMatch) androidVer = 'iOS ' + iosMatch[1].replace(/_/g, '.');
+  } else if (/Windows/.test(ua)) {
+    const winMatch = ua.match(/Windows NT\s?([\d.]+)/);
+    if (winMatch) {
+      const versions = { '10.0': '10/11', '6.3': '8.1', '6.2': '8', '6.1': '7' };
+      androidVer = 'Windows ' + (versions[winMatch[1]] || winMatch[1]);
     }
   }
-
-  // Common brand detection
-  const brands = {
-    'Samsung': /SM-|Samsung|Galaxy/i,
-    'Xiaomi': /Xiaomi|Redmi|POCO|Mi\s/i,
-    'Realme': /RMX|Realme/i,
-    'OPPO': /OPPO|CPH/i,
-    'Vivo': /Vivo|V\d{4}/i,
-    'Huawei': /Huawei|HUAWEI|Honor/i,
-    'OnePlus': /OnePlus|ONEPLUS/i,
-    'Google': /Pixel/i,
-    'Motorola': /Moto|Motorola/i,
-    'Nokia': /Nokia/i,
-    'Sony': /Sony|Xperia/i,
-    'LG': /LG-|LG\s/i,
-    'Infinix': /Infinix/i,
-    'Tecno': /TECNO/i,
-    'iPhone': /iPhone/i
-  };
-
-  let brand = '';
-  for (const [b, regex] of Object.entries(brands)) {
-    if (regex.test(ua)) {
-      brand = b;
-      break;
-    }
-  }
-
-  if (!phoneName || phoneName === 'Unknown Device') {
-    phoneName = brand ? brand + ' Device' : 'Android Device';
-  }
-
-  document.getElementById('deviceName').textContent = phoneName;
-  document.getElementById('deviceModel').textContent = brand ? brand + ' Mobile' : 'Mobile Device';
-
-  // Android version
-  const androidVer = androidMatch ? androidMatch[1] : 'N/A';
-  document.getElementById('deviceAndroid').textContent = androidVer !== 'N/A' ? 'v' + androidVer : detectiOS() || 'N/A';
-
+  document.getElementById('androidVer').textContent = androidVer;
+  
   // RAM
-  const ram = navigator.deviceMemory ? navigator.deviceMemory + ' GB' : estimateRAM();
-  document.getElementById('deviceRAM').textContent = ram;
-
+  let ram = 'Unknown';
+  if (navigator.deviceMemory) {
+    ram = navigator.deviceMemory + ' GB';
+  } else {
+    ram = '4 GB (est.)';
+  }
+  document.getElementById('phoneRAM').textContent = ram;
+  
   // Storage
   if (navigator.storage && navigator.storage.estimate) {
     navigator.storage.estimate().then(est => {
-      const totalGB = (est.quota / (1024 * 1024 * 1024)).toFixed(0);
-      document.getElementById('deviceStorage').textContent = totalGB + ' GB';
+      const totalGB = (est.quota / (1024 * 1024 * 1024)).toFixed(1);
+      const usedGB = (est.usage / (1024 * 1024 * 1024)).toFixed(1);
+      document.getElementById('phoneROM').textContent = usedGB + ' / ' + totalGB + ' GB';
     }).catch(() => {
-      document.getElementById('deviceStorage').textContent = '64 GB';
+      document.getElementById('phoneROM').textContent = 'N/A';
     });
   } else {
-    document.getElementById('deviceStorage').textContent = '64 GB';
+    document.getElementById('phoneROM').textContent = 'N/A';
   }
-
-  // Cores
-  const cores = navigator.hardwareConcurrency || 4;
-  document.getElementById('deviceCores').textContent = cores + ' Cores';
-}
-
-function detectiOS() {
-  const ua = navigator.userAgent;
-  const match = ua.match(/OS (\d+)_/);
-  return match ? 'iOS ' + match[1] : null;
-}
-
-function estimateRAM() {
-  const cores = navigator.hardwareConcurrency || 4;
-  if (cores >= 8) return '8 GB';
-  if (cores >= 6) return '6 GB';
-  if (cores >= 4) return '4 GB';
-  return '3 GB';
+  
+  // Screen
+  document.getElementById('phoneScreen').textContent = window.screen.width + ' × ' + window.screen.height;
+  
+  // Platform
+  let platform = navigator.platform || 'Unknown';
+  if (/Android/i.test(ua)) platform = 'Android';
+  else if (/iPhone|iPad/i.test(ua)) platform = 'iOS';
+  document.getElementById('phonePlatform').textContent = platform;
 }
 
 // ===== NETWORK DETECTION =====
-function detectNetwork() {
+function detectNetworkInfo() {
+  // Network provider - attempt via timezone/locale
+  let provider = 'Unknown';
   const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-  let netName = 'Unknown';
-  let netType = 'N/A';
-  let speed = '--';
-
+  
   if (conn) {
-    const eff = conn.effectiveType || '';
-    const type = conn.type || '';
-
-    if (type === 'wifi') {
-      netName = 'Wi-Fi';
-      netType = 'Wireless';
-      speed = conn.downlink ? conn.downlink.toFixed(1) : '50';
-    } else if (type === 'cellular' || eff) {
-      netType = 'Mobile Data';
-      if (eff === '4g') {
-        netName = 'LTE / 4G';
-        speed = conn.downlink ? conn.downlink.toFixed(1) : '25';
-      } else if (eff === '3g') {
-        netName = '3G Network';
-        speed = conn.downlink ? conn.downlink.toFixed(1) : '5';
-      } else if (eff === '2g') {
-        netName = '2G Network';
-        speed = conn.downlink ? conn.downlink.toFixed(1) : '0.5';
-      } else {
-        netName = eff.toUpperCase() || 'Mobile';
-        speed = conn.downlink ? conn.downlink.toFixed(1) : '10';
-      }
-    } else {
-      netName = 'Connected';
-      netType = type || 'Unknown';
-      speed = conn.downlink ? conn.downlink.toFixed(1) : '10';
-    }
-  } else {
-    if (navigator.onLine) {
-      netName = 'Connected';
-      netType = 'Online';
-      speed = '10';
-    } else {
-      netName = 'Offline';
-      netType = 'No Connection';
-      speed = '0';
-    }
-  }
-
-  // Try to detect provider from timezone
-  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  let provider = '';
-  if (tz.includes('Colombo')) provider = '🇱🇰 SL Network';
-  else if (tz.includes('Kolkata') || tz.includes('Calcutta')) provider = '🇮🇳 IN Network';
-  else provider = '🌐 ' + netName;
-
-  document.getElementById('networkName').textContent = provider;
-  document.getElementById('networkType').textContent = netType + ' • ' + (conn ? (conn.effectiveType || '').toUpperCase() : 'N/A');
-  document.getElementById('networkSpeed').textContent = speed;
-
-  // Live speed update
-  setInterval(() => {
-    const variation = (Math.random() * 4 - 2).toFixed(1);
-    const base = parseFloat(speed) || 10;
-    const newSpeed = Math.max(1, base + parseFloat(variation)).toFixed(1);
-    document.getElementById('networkSpeed').textContent = newSpeed;
-  }, 3000);
-}
-
-// ===== TOGGLE FEATURES =====
-function toggleFeature(name, el) {
-  const card = document.getElementById('card-' + name);
-  const isOn = el.checked;
-
-  if (isOn) {
-    card.classList.add('active');
-    addHistory(name.toUpperCase() + ' enabled', 'green');
-    showNotification('success', '✅ ' + name.toUpperCase(), 'Feature activated');
-  } else {
-    card.classList.remove('active');
-    addHistory(name.toUpperCase() + ' disabled', 'orange');
-  }
-
-  playToggleSound();
-  saveToggles();
-}
-
-function toggleOptimize(el) {
-  const isOn = el.checked;
-  playToggleSound();
-
-  if (isOn) {
-    const prog = document.getElementById('optimizeProgress');
-    const fill = document.getElementById('optimizeFill');
-    const status = document.getElementById('optimizeStatus');
-    prog.style.display = 'block';
-    fill.style.width = '0%';
-
-    const steps = [
-      { pct: 15, text: 'Clearing cache...' },
-      { pct: 35, text: 'Optimizing RAM...' },
-      { pct: 55, text: 'Boosting CPU...' },
-      { pct: 75, text: 'Fixing network latency...' },
-      { pct: 90, text: 'Finalizing...' },
-      { pct: 100, text: '✅ Optimization complete!' }
-    ];
-
-    steps.forEach((step, i) => {
+    const type = conn.effectiveType || conn.type || 'Unknown';
+    document.getElementById('netType').textContent = type.toUpperCase();
+    
+    // Speed estimation based on connection type
+    const speeds = {
+      'slow-2g': { dl: '0.5', ul: '0.1', ping: '300' },
+      '2g': { dl: '1', ul: '0.3', ping: '200' },
+      '3g': { dl: '5', ul: '1.5', ping: '80' },
+      '4g': { dl: '25', ul: '8', ping: '30' },
+      '5g': { dl: '100', ul: '30', ping: '10' }
+    };
+    
+    const speedData = speeds[type] || speeds['4g'];
+    
+    // Animate speed display
+    animateValue('dlSpeed', 0, parseFloat(speedData.dl), 1500);
+    animateValue('ulSpeed', 0, parseFloat(speedData.ul), 1500);
+    animateValue('pingVal', 0, parseFloat(speedData.ping), 1000);
+    
+    if (conn.downlink) {
       setTimeout(() => {
-        fill.style.width = step.pct + '%';
-        status.textContent = step.text;
-        if (step.pct === 100) {
-          addHistory('Phone optimized', 'green');
-          showNotification('success', '⚡ OPTIMIZED', 'Device performance boosted!');
-          setTimeout(() => {
-            prog.style.display = 'none';
-          }, 2000);
-        }
-      }, (i + 1) * 800);
-    });
+        document.getElementById('dlSpeed').textContent = conn.downlink.toFixed(1);
+      }, 2000);
+    }
   } else {
-    document.getElementById('optimizeProgress').style.display = 'none';
-    addHistory('Optimization disabled', 'orange');
+    document.getElementById('netType').textContent = 'WIFI / LAN';
+    animateValue('dlSpeed', 0, 50, 1500);
+    animateValue('ulSpeed', 0, 15, 1500);
+    animateValue('pingVal', 0, 20, 1000);
   }
-
-  saveToggles();
-}
-
-function saveToggles() {
-  const toggles = {
-    antiban: document.getElementById('toggle-antiban').checked,
-    aimlock: document.getElementById('toggle-aimlock').checked,
-    aimfix: document.getElementById('toggle-aimfix').checked,
-    regedit: document.getElementById('toggle-regedit').checked,
-    optimize: document.getElementById('toggle-optimize').checked
+  
+  // Try to identify network provider from timezone
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const providerMap = {
+    'Asia/Colombo': 'Dialog / Mobitel',
+    'Asia/Kolkata': 'Jio / Airtel',
+    'Asia/Dhaka': 'Grameenphone',
+    'Asia/Bangkok': 'AIS / DTAC',
+    'America/New_York': 'AT&T / T-Mobile',
+    'Europe/London': 'EE / Vodafone',
+    'Asia/Dubai': 'Etisalat / du'
   };
-  localStorage.setItem('rusiya_modx_toggles', JSON.stringify(toggles));
+  
+  provider = providerMap[tz] || 'ISP (' + (tz || 'Unknown') + ')';
+  document.getElementById('netProvider').textContent = provider;
 }
 
-function loadToggles() {
-  const saved = localStorage.getItem('rusiya_modx_toggles');
+function animateValue(id, start, end, duration) {
+  const el = document.getElementById(id);
+  const startTime = performance.now();
+  
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = start + (end - start) * eased;
+    
+    el.textContent = end >= 10 ? Math.floor(current) : current.toFixed(1);
+    
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    }
+  }
+  
+  requestAnimationFrame(update);
+}
+
+// ===== FEATURE TOGGLES =====
+function loadFeatureStates() {
+  const saved = loadFromStorage('features');
   if (saved) {
-    const toggles = JSON.parse(saved);
-    Object.keys(toggles).forEach(key => {
-      const el = document.getElementById('toggle-' + key);
-      if (el && toggles[key]) {
-        el.checked = true;
-        const card = document.getElementById('card-' + key);
-        if (card) card.classList.add('active');
+    featureStates = saved;
+    Object.keys(featureStates).forEach(key => {
+      const toggle = document.getElementById('toggle' + key.charAt(0).toUpperCase() + key.slice(1));
+      if (toggle) {
+        toggle.checked = featureStates[key];
+        const item = document.getElementById('feat-' + key);
+        if (item && featureStates[key]) {
+          item.classList.add('active');
+        }
       }
     });
+  }
+}
+
+function toggleFeature(name, el) {
+  const isOn = el.checked;
+  featureStates[name] = isOn;
+  saveToStorage('features', featureStates);
+  
+  const item = document.getElementById('feat-' + name);
+  if (isOn) {
+    item.classList.add('active');
+    playToggleSound();
+    addHistory(name.toUpperCase() + ' enabled');
+  } else {
+    item.classList.remove('active');
+    playToggleSound();
+    addHistory(name.toUpperCase() + ' disabled');
   }
 }
 
 // ===== LAUNCH GAME =====
 function launchGame() {
-  addHistory('Free Fire launch attempted', 'blue');
-  showNotification('success', '🎮 LAUNCHING', 'Opening Free Fire...');
-
+  playLaunchSound();
+  speak('Launching Free Fire');
+  addHistory('Free Fire launched');
+  
+  const btn = document.querySelector('.launch-btn');
+  btn.textContent = '⏳ INJECTING...';
+  btn.style.pointerEvents = 'none';
+  
   setTimeout(() => {
-    // Try multiple Free Fire deep links
-    const links = [
-      'freefire://',
-      'intent://launch#Intent;package=com.dts.freefireth;end',
-      'market://details?id=com.dts.freefireth'
-    ];
-
-    let launched = false;
-
-    // Try freefire:// first
-    const iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
-    iframe.src = links[0];
-    document.body.appendChild(iframe);
-
+    btn.textContent = '✓ INJECTED! OPENING...';
+    btn.style.background = 'linear-gradient(135deg, var(--neon-green), #00aa44)';
+    
     setTimeout(() => {
-      document.body.removeChild(iframe);
-      // Try intent
-      window.location.href = links[1];
+      // Try multiple ways to open Free Fire
+      window.location.href = "freefire://";
+      
+      setTimeout(() => {
+        // Fallback: try com.dts.freefireth
+        window.location.href = "intent://launch#Intent;package=com.dts.freefireth;end";
+      }, 1000);
+      
+      setTimeout(() => {
+        btn.innerHTML = '<span class="launch-icon">🔥</span> LAUNCH FREE FIRE';
+        btn.style.background = '';
+        btn.style.pointerEvents = '';
+      }, 3000);
     }, 1500);
-
-    setTimeout(() => {
-      // If still here, try play store
-      if (document.hasFocus()) {
-        window.location.href = links[0];
-      }
-    }, 3000);
-  }, 500);
+  }, 2000);
 }
 
 // ===== SETTINGS =====
 function openSettings() {
-  document.getElementById('settingsPanel').style.display = 'flex';
-  addHistory('Settings opened', 'blue');
+  document.getElementById('settingsPanel').style.display = 'block';
+  addHistory('Settings opened');
 }
 
 function closeSettings() {
   document.getElementById('settingsPanel').style.display = 'none';
 }
 
-function closeSettingsOutside(e) {
-  if (e.target === document.getElementById('settingsPanel')) {
-    closeSettings();
-  }
+function openWhatsApp() {
+  addHistory('WhatsApp chat opened');
+  window.open('https://wa.me/94768268856?text=Hi%20RUSIYA%20MODX%20Panel%20Bug%20Report', '_blank');
+}
+
+function openTopUp() {
+  addHistory('Top Up Store opened');
+  window.open('https://rusirurukshan68-jpg.github.io/RUSIYA-TOPUP-Store-/', '_blank');
+}
+
+function openModDownload() {
+  addHistory('Mod Menu download started');
+  window.open('https://www.mediafire.com/file/knuqez56o8kkrxp/RUSIYA+MODX++BODY+HEADSHOT+.xapk/file', '_blank');
 }
 
 // ===== HISTORY =====
-let historyData = JSON.parse(localStorage.getItem('rusiya_modx_history') || '[]');
-
-function addHistory(text, color) {
-  const now = new Date();
-  const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-  const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-
-  historyData.unshift({
-    text: text,
-    color: color,
-    time: timeStr + ' • ' + dateStr
-  });
-
-  if (historyData.length > 50) historyData = historyData.slice(0, 50);
-  localStorage.setItem('rusiya_modx_history', JSON.stringify(historyData));
+function loadHistory() {
+  const saved = loadFromStorage('history');
+  if (saved) {
+    activityHistory = saved;
+  }
 }
 
 function openHistory() {
@@ -1986,107 +2236,45 @@ function closeHistory() {
   document.getElementById('historyPanel').style.display = 'none';
 }
 
-function closeHistoryOutside(e) {
-  if (e.target === document.getElementById('historyPanel')) {
-    closeHistory();
-  }
-}
-
 function renderHistory() {
   const list = document.getElementById('historyList');
-  if (historyData.length === 0) {
-    list.innerHTML = '<div class="no-history">No history yet</div>';
+  
+  if (activityHistory.length === 0) {
+    list.innerHTML = '<div class="history-empty">No activity recorded yet</div>';
     return;
   }
-
-  list.innerHTML = historyData.map(item => `
+  
+  list.innerHTML = activityHistory.map(item => `
     <div class="history-item">
-      <div class="history-dot ${item.color}"></div>
-      <span class="history-text">${item.text}</span>
-      <span class="history-time">${item.time}</span>
+      <div class="time">📅 ${item.time}</div>
+      <div class="action">▸ ${item.action}</div>
     </div>
   `).join('');
 }
 
-// ===== NOTIFICATIONS =====
-function showNotification(type, title, desc) {
-  const notif = document.getElementById('notification');
-  const icon = document.getElementById('notifIcon');
-  const titleEl = document.getElementById('notifTitle');
-  const descEl = document.getElementById('notifDesc');
-
-  notif.className = 'notification ' + type;
-  icon.textContent = type === 'success' ? '✅' : '❌';
-  titleEl.textContent = title;
-  descEl.textContent = desc;
-  notif.style.display = 'block';
-
-  setTimeout(() => {
-    notif.style.display = 'none';
-  }, 3000);
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ===== MATRIX BACKGROUND =====
-function initMatrix() {
-  const canvas = document.getElementById('matrixCanvas');
-  const ctx = canvas.getContext('2d');
+// ===== INIT =====
+window.addEventListener('load', function() {
+  startBoot();
+});
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  const chars = 'RUSIYAMODX01';
-  const fontSize = 10;
-  const columns = Math.floor(canvas.width / fontSize);
-  const drops = Array(columns).fill(1);
-
-  function drawMatrix() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#ff0040';
-    ctx.font = fontSize + 'px monospace';
-
-    for (let i = 0; i < drops.length; i++) {
-      const text = chars[Math.floor(Math.random() * chars.length)];
-      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-        drops[i] = 0;
-      }
-      drops[i]++;
-    }
+// Keep network speed updated
+setInterval(() => {
+  const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  if (conn && conn.downlink) {
+    document.getElementById('dlSpeed').textContent = conn.downlink.toFixed(1);
   }
-
-  setInterval(drawMatrix, 80);
-
-  window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  });
-}
-
-// ===== SHAKE ANIMATION =====
-const shakeStyle = document.createElement('style');
-shakeStyle.textContent = `
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    20% { transform: translateX(-10px); }
-    40% { transform: translateX(10px); }
-    60% { transform: translateX(-5px); }
-    80% { transform: translateX(5px); }
+  // Random ping simulation
+  const currentPing = parseInt(document.getElementById('pingVal').textContent);
+  if (currentPing > 0) {
+    const variation = Math.floor(Math.random() * 10) - 5;
+    const newPing = Math.max(5, currentPing + variation);
+    document.getElementById('pingVal').textContent = newPing;
   }
-`;
-document.head.appendChild(shakeStyle);
-
-// ===== TIME DISPLAY (extra) =====
-function updateTime() {
-  const now = new Date();
-  const days = Math.ceil((EXPIRY_DATE - now) / (1000 * 60 * 60 * 24));
-  const expiryEl = document.querySelector('.user-expiry strong');
-  if (expiryEl && days > 0) {
-    expiryEl.textContent = days + ' Days Left';
-    expiryEl.style.color = days < 30 ? '#ff6600' : '#00ff88';
-  }
-}
-setInterval(updateTime, 60000);
+}, 5000);
 </script>
 
 </body>
